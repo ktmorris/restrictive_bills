@@ -1,0 +1,252 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  12pt,
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={A Right Restricted},
+  pdfauthor={Kevin Morris},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\usepackage{rotating}
+\usepackage{setspace}
+\usepackage{lscape}
+\usepackage{pdfpages}
+\newcommand{\beginsupplement}{\setcounter{table}{0}  \renewcommand{\thetable}{A\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{A\arabic{figure}}}
+\usepackage{lineno}
+\linenumbers
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+  % set entry spacing
+  \ifnum #2 > 0
+  \setlength{\parskip}{#2\baselineskip}
+  \fi
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\title{A Right Restricted\thanks{TKTKT}}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Understanding the Introduction and Passage of Restrictive Voting Laws}
+\author{Kevin Morris\footnote{Researcher, Brennan Center for Justice (kevin.morris{[}at{]}nyu.edu).}}
+\date{February 24, 2022}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+TKTKT
+\end{abstract}
+
+\pagenumbering{gobble}
+\pagebreak
+
+\pagenumbering{arabic}
+\doublespacing
+
+\hypertarget{recent-work-on-restrictive-voting-laws}{%
+\section{Recent Work on Restrictive voting Laws}\label{recent-work-on-restrictive-voting-laws}}
+
+Over the past 15 years, scholars have explored the introduction and passage of restrictive of restrictive voting laws across the country. This work has largely focused on state-level factors, with a general consensus that these laws find the most fertile ground in states with large demographic change and a growing nonwhite electorate (\protect\hyperlink{ref-Bentele2013}{Bentele and O'Brien 2013}), where large numbers of Black Americans reside (\protect\hyperlink{ref-Behrens2003}{Behrens, Uggen, and Manza 2003}), and in electorally competitive states where Republicans hold a slight edge (\protect\hyperlink{ref-Hicks2015}{Hicks et al. 2015}).
+
+\protect\hyperlink{ref-Behrens2003}{Behrens, Uggen, and Manza} (\protect\hyperlink{ref-Behrens2003}{2003}) uses a historical approach to understand the passage of laws disenfranchising citizens convicted of felony offenses. As they note, all but two American states restrict voting rights for at least some incarcerated citizens; the two that do not---Maine and Vermont---are also the two whitest states in the nation. Behrens and colleagues document the rise of these restrictive laws in the aftermath of the passage of the 14th and 15th Amendments, expanding formal citizenship and granting voting rights to Black men. Drawing on \protect\hyperlink{ref-Blumer1958}{Blumer} (\protect\hyperlink{ref-Blumer1958}{1958}) and other scholars of group threat, they argue that white (male) Americans were threatened by the prospect that their sole control over the political domain was no longer so secure. Of course, their claims to racial political dominance were threatened proportionate to the number of nonwhite potential voters; as such, states with larger nonwhite populations had political incentives to develop new ways to disenfranchise Black men. They find strong support for the theory that the widespread adoption of felony disenfranchisement rules rose from this threat. ``Our key finding can be summarized concisely and forcefully,'' they write. ``The racial composition of state prisons is firmly associated with the adoption of state felon disenfranchisement laws. States with greater nonwhite prison populations have been more likely to ban convicted felons from voting than states with proportionally fewer nonwhites in the criminal justice system'' (\protect\hyperlink{ref-Behrens2003}{Behrens, Uggen, and Manza 2003, 596}). There conclusions have been corroborated more recently. \protect\hyperlink{ref-Eubank2022}{Eubank and Fresh} (\protect\hyperlink{ref-Eubank2022}{2022}) finds that states subject to strict federal oversight under the 1965 Voting Rights Act's Section 5 selectively increased the incarceration of Black Americans, providing further evidence that increased political opportunity for racial minorities leads white majorities to seek other ways of restricting their effective power.
+
+Of course, the incarceration of citizens and subsequent legal disenfranchisement is perhaps only the most drastic example of curtailing access to the ballot.\footnote{It bears noting, however, that being drastic does not mean it is uncommon. More than 6\% of Black Americans were legally disenfranchised in 2020 due to a felony conviction. This number topped 10\% in 7 of the 33 states where the Black voting age population exceeded 100,000 (\protect\hyperlink{ref-Uggen2020}{Uggen et al. 2020}).} Might less extreme attempts to limit the pool of eligible voters follow a similar pattern? And do such considerations structure legislative behavior in the modern era? \protect\hyperlink{ref-Bentele2013}{Bentele and O'Brien} (\protect\hyperlink{ref-Bentele2013}{2013}) consider the introduction and passage of 5 types of restrictive voting legislation (``photo identification requirements, proof of citizenship requirements, laws that introduce restrictions on voter registration, restrictions on absentee and early voting, and restrictions on participation by felons'' (1095)) over the 2006--2011 period. They conclude that the strongest predictor of the introduction and passage of restrictive voting laws is the political power demonstrated by racial and ethnic minorities, arguing that ``legislative developments in this policy area remain heavily shaped by racial considerations'' (\protect\hyperlink{ref-Bentele2013}{Bentele and O'Brien 2013, 1089}). At the same time, they find no evidence that prevalence of voter fraud impacted the introduction of restrictive provisions and that it is ``only a minor contributing factor'' to the passage of these laws in 2011 (1103).
+
+A further insight from \protect\hyperlink{ref-Bentele2013}{Bentele and O'Brien} (\protect\hyperlink{ref-Bentele2013}{2013})---that restrictive provisions are passed most frequently in electorally-competitive states---is corroborated by \protect\hyperlink{ref-Hicks2015}{Hicks et al.} (\protect\hyperlink{ref-Hicks2015}{2015}). EXPAND
+
+This scholarship sheds important light on where restrictive voting laws are the most likely to go into effect, and the results are not encouraging. There is strong evidence that racial threat predicts the passage of these restrictive bills across the country, even as legislators proclaim that the changes are needed to combat widespread fraud (see, for instance, \protect\hyperlink{ref-Piven2009}{Piven, Minnite, and Groarke 2009}; \protect\hyperlink{ref-Minnite2010}{Minnite 2010}). Important as this research has been, however, it fails to explain the full set of dynamics between demographic composition and bill introduction. The explosion in the introduction of restrictive voting laws in 2021 makes this clear: according to the data from the Brennan Center for Justice used throughout this project, just one state (Vermont) introduced \emph{no} voting bills in 2021 containing no restrictive provisions. Moreover, the number of restrictive provisions introduced and passed in 2021 has little historical precedent: 880 restrictive provisions were introduced and 93 were passed. By way of comparison, \protect\hyperlink{ref-Bentele2013}{Bentele and O'Brien} (\protect\hyperlink{ref-Bentele2013}{2013})---which also used data from the Brennan Center---calls roughly the roughly 20 passed provisions in 2011 a ``dramatic increase'' (1088; see their Figure 2).
+
+Clearly, something more complex than state-level factors are at play in the contemporary push to restrict voting rights. By considering not only state-level factors but also examining the demographics of the districts represented by legislators who introduce, co-sponsor, and vote for these restrictive bills, this project marks a significant step forward in understanding how racial threat's influence on the policy-making process is mediated by factors at multiple political levels. The following section steps back to engage with the (racial) threat literature and, more specifically, consider how spatially-situated theories of threat help us to formulate expectations about the roles played by state and local factors in the introduction and passage of restrictive voting laws.
+
+\hypertarget{a-changing-electorate-and-threat}{%
+\section{A Changing Electorate and Threat}\label{a-changing-electorate-and-threat}}
+
+Scholars across the social sciences have long noted the importance of threat to the policy-making process; indeed, each of the studies discussed in the previous section implicitly or explicitly draw on this literature. \protect\hyperlink{ref-Tilly1978}{Tilly} (\protect\hyperlink{ref-Tilly1978}{1978}) separates collective action into three categories: defensive, offensive, and preparatory (73). Of these, two---defensive and preparatory---are explicitly linked to threats, where political actors pool their resources to fend of challenges to their interests, or to regain what has already been lost. \protect\hyperlink{ref-Beck2000}{Beck} (\protect\hyperlink{ref-Beck2000}{2000}) extends this theory to note that defensive actors need only \emph{perceive} that their interests have been compromised to mobilize in a reactionary way; the \emph{reality} of any worsened station is perhaps less important. These threats can take multiple forms, be they economic, political, or demographic (\protect\hyperlink{ref-VanDyke2002}{Van Dyke and Soule 2002}).
+
+The social sciences are replete with empirical evidence of the mobilizing effect of these three forms of threat. Early work on collective action demonstrates that unemployed workers
+
+Only recently, however, have the spatial dynamics of racial threat and policy threat been considered with serious attention. They conclude: ``theoretical insights derived from analyses at one political scale will not necessarily hold for higher or lower-level units'' (\protect\hyperlink{ref-Andrews2015}{Andrews and Seguin 2015, 503}).
+
+\hypertarget{methods-and-matierals}{%
+\section{Methods and Matierals}\label{methods-and-matierals}}
+
+Throughout our analyses, I rely on the Voting Laws Roundup, a project of the Brennan Center for Justice at NYU School of Law. The Brennan Center systematically reviews all laws introduced around the country that relate to voting and the administration of elections in each state. The Brennan Center then manually separates each bill introduced into its constituent provisions, using two coders to designate each provision as ``restrictive,'' ``neutral,'' or ``expansive.'' Each provision is also assigned to a category describing its effect (categories include effects such as ``voter ID,'' ``polling place count,'' or ``funding for poll workers''). In 2021, the Brennan Center identified 2,891 bills that were introduced and related to voting, consisting of 5,961 provisions. Of these provisions, 815 were deemed restrictive; 3,461 neutral; and 1,685 expansive. A total of 72 restrictive provisions were passed into law that year; 157 neutral provisions and 19 expansive ones were also passed. Figure \ref{fig:cols} shows the categorical breakdown of restrictive provisions introduced and passed, while Figure \ref{fig:maps} shows the geographical distribution of these provisions.
+
+\begin{figure}[!ht]
+
+{\centering \includegraphics{bad_bills_files/figure-latex/cols-1} 
+
+}
+
+\caption{\label{fig:cols}Categories of Restrictive Provisions, 2021}\label{fig:cols}
+\end{figure}
+
+\begin{figure}[!ht]
+
+{\centering \includegraphics{bad_bills_files/figure-latex/maps-1} 
+
+}
+
+\caption{\label{fig:maps}Restrictive Provisions, 2021}\label{fig:maps}
+\end{figure}
+
+These provisions are then merged with data from LegiScan, which tracks bills of all kinds in statehouses throughout the United States. The LegiScan data includes information on bill sponsorship, roll-call votes, and dates of introduction. These data are used to identify the (co)sponsors of all the voting laws identified by the Brennan Center, as well as the legislators voting in favor or against them.
+
+To account for pre-2021 variation in the electoral landscape, I incorporate each state's score on the (pre-COVID) 2020 Cost of Voting Index (\protect\hyperlink{ref-Schraufnagel2020}{Schraufnagel, Pomante II, and Li 2020}). This index captures many of the same items tracked by the Brennan Center, such as whether a state has same-day registration, voter ID laws, and the number of days of early voting. The index is widely used by social scientists to measure the difficulty of voting (e.g. \protect\hyperlink{ref-Juelich2020}{Juelich and Coll 2020}; \protect\hyperlink{ref-Pabayo2021}{Pabayo et al. 2021}; \protect\hyperlink{ref-Rackey2022}{Rackey and Camarillo 2022}).
+
+In addition to these measures of voting legislation and policy environment, I incorporate demographic data at the state and legislative-district level from the Census Bureau's American Communities Survey. Except where noted, these estimates are the 5-year numbers ending with 2019.\footnote{At the time of writing, the 2020 estimates were not yet available. The study will be updated when they become available.}
+
+\newpage
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\hypertarget{ref-Andrews2015}{}%
+Andrews, Kenneth T., and Charles Seguin. 2015. {``Group {Threat} and {Policy Change}: {The Spatial Dynamics} of {Prohibition Politics}, 1890{}.''} \emph{American Journal of Sociology} 121 (2): 475--510. \url{https://doi.org/10.1086/682134}.
+
+\leavevmode\hypertarget{ref-Beck2000}{}%
+Beck, E. M. 2000. {``Guess {Who}'s {Coming} to {Town}: {White Supremacy}, {Ethnic Competition}, and {Social Change}.''} \emph{Sociological Focus} 33 (2): 153--74. \url{https://doi.org/10.1080/00380237.2000.10571163}.
+
+\leavevmode\hypertarget{ref-Behrens2003}{}%
+Behrens, Angela, Christopher Uggen, and Jeff Manza. 2003. {``Ballot {Manipulation} and the {`{Menace} of {Negro Domination}'}: {Racial Threat} and {Felon Disenfranchisement} in the {United States}, 1850{}.''} \emph{American Journal of Sociology} 109 (3): 559--605. \url{https://doi.org/10.1086/378647}.
+
+\leavevmode\hypertarget{ref-Bentele2013}{}%
+Bentele, Keith G., and Erin E. O'Brien. 2013. {``Jim {Crow} 2.0? {Why States Consider} and {Adopt Restrictive Voter Access Policies}.''} \emph{Perspectives on Politics} 11 (4): 1088--1116. \url{https://doi.org/10.1017/S1537592713002843}.
+
+\leavevmode\hypertarget{ref-Blumer1958}{}%
+Blumer, Herbert. 1958. {``Race {Prejudice} as a {Sense} of {Group Position}.''} \emph{The Pacific Sociological Review} 1 (1): 3--7. \url{https://doi.org/10.2307/1388607}.
+
+\leavevmode\hypertarget{ref-Eubank2022}{}%
+Eubank, Nicholas, and Adriane Fresh. 2022. {``Enfranchisement and {Incarceration} After the 1965 {Voting Rights Act}.''} \emph{American Political Science Review}, January, 1--16. \url{https://doi.org/10.1017/S0003055421001337}.
+
+\leavevmode\hypertarget{ref-Hicks2015}{}%
+Hicks, William D., Seth C. McKee, Mitchell D. Sellers, and Daniel A. Smith. 2015. {``A {Principle} or a {Strategy}? {Voter Identification Laws} and {Partisan Competition} in the {American States}.''} \emph{Political Research Quarterly} 68 (1): 18--33. \url{https://doi.org/10.1177/1065912914554039}.
+
+\leavevmode\hypertarget{ref-Juelich2020}{}%
+Juelich, Courtney L., and Joseph A. Coll. 2020. {``Rock the {Vote} or {Block} the {Vote}? {How} the {Cost} of {Voting Affects} the {Voting Behavior} of {American Youth}: {Part} of {Special Symposium} on {Election Sciences}.''} \emph{American Politics Research} 48 (6): 719--24. \url{https://doi.org/10.1177/1532673X20920265}.
+
+\leavevmode\hypertarget{ref-Minnite2010}{}%
+Minnite, Lorraine Carol. 2010. \emph{The Myth of Voter Fraud}. {Ithaca {[}N.Y.}: {Cornell University Press}.
+
+\leavevmode\hypertarget{ref-Pabayo2021}{}%
+Pabayo, Roman, Sze Yan Liu, Erin Grinshteyn, Daniel M. Cook, and Peter Muennig. 2021. {``Barriers to {Voting} and {Access} to {Health Insurance Among US Adults}: {A Cross-Sectional Study}.''} \emph{The Lancet Regional Health - Americas} 2 (October): 100026. \url{https://doi.org/10.1016/j.lana.2021.100026}.
+
+\leavevmode\hypertarget{ref-Piven2009}{}%
+Piven, Frances Fox, Lorraine Carol Minnite, and Margaret Groarke. 2009. \emph{Keeping down the Black Vote: Race and the Demobilization of {American} Voters}. {New York}: {New Press}.
+
+\leavevmode\hypertarget{ref-Rackey2022}{}%
+Rackey, John D., and C. Tyler Godines Camarillo. 2022. {``Stress {Test}: {Three Case Studies} on {Vote} by {Mail During} a {Global Pandemic}.''} In \emph{The {Roads} to {Congress} 2020: {Campaigning} in the {Era} of {Trump} and {COVID-19}}, edited by Sean D. Foreman, Marcia L. Godwin, and Walter Clark Wilson, 37--52. {Cham}: {Springer International Publishing}. \url{https://doi.org/10.1007/978-3-030-82521-8_3}.
+
+\leavevmode\hypertarget{ref-Schraufnagel2020}{}%
+Schraufnagel, Scot, Michael J. Pomante II, and Quan Li. 2020. {``Cost of {Voting} in the {American States}: 2020.''} \emph{Election Law Journal: Rules, Politics, and Policy} 19 (4): 503--9. \url{https://doi.org/10.1089/elj.2020.0666}.
+
+\leavevmode\hypertarget{ref-Tilly1978}{}%
+Tilly, Charles. 1978. \emph{From Mobilization to Revolution}. {New York}: {Random house}.
+
+\leavevmode\hypertarget{ref-Uggen2020}{}%
+Uggen, Christopher, Ryan Larson, Sarah Shannon, and Arleth Pulido-Nava. 2020. {``Locked {Out} 2020: {Estimates} of {People Denied Voting Rights Due} to a {Felony Conviction}.''} Research Report. {The Sentencing Project}.
+
+\leavevmode\hypertarget{ref-VanDyke2002}{}%
+Van Dyke, Nella, and Sarah A. Soule. 2002. {``Structural {Social Change} and the {Mobilizing Effect} of {Threat}: {Explaining Levels} of {Patriot} and {Militia Organizing} in the {United States}.''} \emph{Social Problems} 49 (4): 497--520. \url{https://doi.org/10.1525/sp.2002.49.4.497}.
+
+\end{CSLReferences}
+
+\end{document}

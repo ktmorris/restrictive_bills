@@ -3,35 +3,45 @@ upper_chambers <- left_join(census_race_ethnicity("state legislative district (u
                                                   state = unique(fips_codes$state)[1:51],
                                                   year = 2019) %>% 
                               mutate(chamber = "SD"),
-                            left_join(census_median_age("state legislative district (upper chamber)",
-                                                        state = unique(fips_codes$state)[1:51],
-                                                        year = 2019) %>% 
+                            left_join(census_race_ethnicity("state legislative district (upper chamber)",
+                                                            state = unique(fips_codes$state)[1:51],
+                                                            year = 2009) %>% 
+                                        select(GEOID, nh_white_2009 = nh_white) %>% 
                                         mutate(chamber = "SD"),
-                                      left_join(census_income("state legislative district (upper chamber)",
-                                                              state = unique(fips_codes$state)[1:51],
-                                                              year = 2019) %>% 
+                                      left_join(census_median_age("state legislative district (upper chamber)",
+                                                                  state = unique(fips_codes$state)[1:51],
+                                                                  year = 2019) %>% 
                                                   mutate(chamber = "SD"),
-                                                census_education("state legislative district (upper chamber)",
-                                                                 state = unique(fips_codes$state)[1:51],
-                                                                 year = 2019) %>% 
-                                                  mutate(chamber = "SD"))))
+                                                left_join(census_income("state legislative district (upper chamber)",
+                                                                        state = unique(fips_codes$state)[1:51],
+                                                                        year = 2019) %>% 
+                                                            mutate(chamber = "SD"),
+                                                          census_education("state legislative district (upper chamber)",
+                                                                           state = unique(fips_codes$state)[1:51],
+                                                                           year = 2019) %>% 
+                                                            mutate(chamber = "SD")))))
 
 lower_chambers <- left_join(census_race_ethnicity("state legislative district (lower chamber)",
                                                   state = unique(fips_codes$state)[1:51],
                                                   year = 2019) %>% 
                               mutate(chamber = "HD"),
-                            left_join(census_median_age("state legislative district (lower chamber)",
-                                                        state = unique(fips_codes$state)[1:51],
-                                                        year = 2019) %>% 
+                            left_join(census_race_ethnicity("state legislative district (lower chamber)",
+                                                            state = unique(fips_codes$state)[1:51],
+                                                            year = 2009) %>%  
+                                        select(GEOID, nh_white_2009 = nh_white) %>% 
                                         mutate(chamber = "HD"),
-                                      left_join(census_income("state legislative district (lower chamber)",
-                                                              state = unique(fips_codes$state)[1:51],
-                                                              year = 2019) %>% 
+                                      left_join(census_median_age("state legislative district (lower chamber)",
+                                                                  state = unique(fips_codes$state)[1:51],
+                                                                  year = 2019) %>% 
                                                   mutate(chamber = "HD"),
-                                                census_education("state legislative district (lower chamber)",
-                                                                 state = unique(fips_codes$state)[1:51],
-                                                                 year = 2019) %>% 
-                                                  mutate(chamber = "HD"))))
+                                                left_join(census_income("state legislative district (lower chamber)",
+                                                                        state = unique(fips_codes$state)[1:51],
+                                                                        year = 2019) %>% 
+                                                            mutate(chamber = "HD"),
+                                                          census_education("state legislative district (lower chamber)",
+                                                                           state = unique(fips_codes$state)[1:51],
+                                                                           year = 2019) %>% 
+                                                            mutate(chamber = "HD")))))
 
 ###############################
 
@@ -65,9 +75,11 @@ spons <- left_join(spons,
   rename(chamber = district_1) %>% 
   select(-state_code, -district_3) %>% 
   group_by(state, district, chamber, impact) %>% 
-  tally() %>% 
+  summarize(n = n(),
+            n_pass = sum(pass)) %>% 
   filter(!is.na(impact)) %>% 
-  pivot_wider(id_cols = c(state, district, chamber), names_from = impact, values_from = n, values_fill = 0)
+  pivot_wider(id_cols = c(state, district, chamber), names_from = impact,
+              values_from = c(n, n_pass), values_fill = 0)
 
 demos <- bind_rows(
   left_join(upper_chambers,
@@ -77,11 +89,13 @@ demos <- bind_rows(
             filter(spons, chamber == "HD"),
             by = c("GEOID" = "district", "chamber"))
 ) %>% 
-  mutate(across(c(N, R, E), ~ ifelse(is.na(.), 0, .))) %>% 
-  pivot_longer(c(N, R, E), names_to = "impact", values_to = "n") %>% 
+  mutate(across(starts_with("n_"), ~ ifelse(is.na(.), 0, .))) %>% 
+  pivot_longer(starts_with("n_"), names_to = "impact", values_to = "n") %>% 
   mutate(sp = n > 0,
-         n2 = as.factor(n),
-         state = substring(GEOID, 1, 2))
+         state = substring(GEOID, 1, 2),
+         passed = ifelse(grepl("pass", impact), "pass", "intro"),
+         impact = substring(impact, nchar(impact))) %>% 
+  pivot_wider(names_from = passed, values_from = c(n, sp))
 
 state_race <- census_race_ethnicity("state", year = 2019)
 
@@ -89,8 +103,7 @@ demos <- left_join(demos,
                    state_race %>% 
                      select(state = GEOID,
                             state_nh_white = nh_white)) %>% 
-  filter(!is.na(nh_white)) %>% 
-  mutate(bills = n)
+  filter(!is.na(nh_white))
 
 demos <- mutate(demos,
                 south = substring(GEOID, 1, 2) %in%
@@ -98,10 +111,12 @@ demos <- mutate(demos,
                     "12", "13", "47", "45", "37",
                     "21", "51", "54"))
 
-m1a <- lm(sp ~ poly(nh_white, 2)*state_nh_white +
+demos$change_white <- demos$nh_white / demos$nh_white_2009
+
+m1a <- lm(sp_intro ~ poly(nh_white, 2)*state_nh_white +
             median_income + median_age + population +
             some_college, filter(demos, chamber == "HD", impact == "R"))
-m1b <- lm(sp ~ poly(nh_white, 2)*state_nh_white +
+m1b <- lm(sp_intro ~ poly(nh_white, 2)*state_nh_white +
             median_income + median_age + population +
             some_college, filter(demos, chamber == "SD", impact == "R"))
 
@@ -127,6 +142,23 @@ ggplot(marg, aes(x = x, y = predicted,
        y = "Probability that Representative Sponsored Restrictive Law(s)",
        fill = "White Share of\nState Population",
        color = "White Share of\nState Population",
+       caption = "Covariates include median income; median age;
+share with some college education; and population") +
+  scale_y_continuous(labels = scales::percent) +
+  scale_color_manual(values = bc_colors(c(1:3))) +
+  scale_fill_manual(values = bc_colors(c(1:3)))
+
+ggplot(marg, aes(x = x, y = predicted,
+                 ymin = conf.low, ymax = conf.high,
+                 linetype = group)) +
+  facet_grid(. ~ chamber) +
+  geom_ribbon(alpha = 0.2) +
+  geom_line() +
+  theme_bc(legend.position = "bottom") +
+  scale_x_continuous(breaks = seq(0, 1, .2), labels = scales::percent) +
+  labs(x = "White Share of District Population",
+       y = "Probability that Representative Sponsored Restrictive Law(s)",
+       linetype = "White Share of\nState Population",
        caption = "Covariates include median income; median age;
 share with some college education; and population") +
   scale_y_continuous(labels = scales::percent) +

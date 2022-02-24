@@ -54,7 +54,7 @@ colnames(provs) <- c("state", "bill", "subject", "impact", "year", "date_added",
 
 one_per <- provs %>% 
   mutate(date_added = as.Date(date_added, "%m/%d/%Y")) %>% 
-  group_by(state, bill, year, url) %>% 
+  group_by(state, bill, year) %>% 
   summarize(date_added = min(date_added)) %>% 
   filter(year != "")
 
@@ -197,40 +197,25 @@ one_per <- left_join(one_per,
   group_by(state, bill, year, title, bill_id) %>% 
   filter(row_number() == 1)
 
-provs <- left_join(provs, select(ungroup(one_per), bill, bill_id, file)) %>% 
+provs <- left_join(provs, select(ungroup(one_per), bill, bill_id, file, year, state)) %>% 
   mutate(impact = case_when(tolower(substring(impact, 1, 1)) == "r" ~ "R",
                             tolower(substring(impact, 1, 1)) == "n" ~ "N",
                             tolower(substring(impact, 1, 1)) %in% c("e", "p") ~ "E"),
          subject = tolower(subject))
 
-##########################################
-files <- list.files("raw_data/bulk_legiscan_data/", full.names = T,
-                    pattern = "^rollcalls.csv", recursive = T)
+provs <- left_join(provs,
+                   fread("raw_data/groupings.csv")) %>% 
+  select(-subject) %>% 
+  filter(!is.na(group),
+         !is.na(impact))
 
+passage <- fread("raw_data/2021 Restrictive Bills - passed 2021.csv") %>% 
+  mutate(`BILL NUMBER` = ifelse(`BILL NUMBER` == "IA SF 413", "IA SF 413/IA SSB 1199", `BILL NUMBER`),
+         `BILL NUMBER` = ifelse(`BILL NUMBER` == "IA SF 568", "IA SSB 1237/IA SF 568", `BILL NUMBER`))
 
-rcs <- rbindlist(lapply(files, function(f){
-  j <- fread(f) %>% 
-    mutate(date = as.Date(date),
-           file = gsub("rollcalls", "bills", f))
-}), fill = T) %>% 
-  group_by(file, chamber, bill_id) %>% 
-  filter(date == max(date)) %>% 
-  group_by(file, chamber, bill_id) %>% 
-  filter(roll_call_id == max(roll_call_id))
+provs$pass <- provs$bill %in% passage$`BILL NUMBER`
 
-rcs <- left_join(provs, rcs)
-
-##########################################
-files <- list.files("raw_data/bulk_legiscan_data/", full.names = T,
-                    pattern = "^votes.csv", recursive = T)
-
-
-votes <- rbindlist(lapply(files, function(f){
-  j <- fread(f) %>% 
-    mutate(file = gsub("votes", "bills", f))
-}), fill = T) 
-
-rcs <- left_join(rcs, votes)
+saveRDS(provs, "temp/clean_provisions_2021.rds")
 
 ###########################################
 
@@ -265,24 +250,8 @@ slim <- sponsors %>%
          party,
          district,
          position,
-         impact)
+         impact,
+         group,
+         pass)
 
-fwrite(slim, "temp/2021_sponsors_introduced.csv")
 saveRDS(slim, "temp/sponsor_intro_2021.rds")
-#############
-
-rcs <- left_join(rcs,
-                 select(people,
-                        file,
-                        people_id,
-                        party)) %>% 
-  filter(vote_desc == "Yea") %>% 
-  group_by(state, bill, year,
-           chamber, party) %>% 
-  tally()
-
-rcs <- rcs %>% 
-  pivot_wider(id_cols = c(state, bill, year, chamber), names_from = party, values_from = n)
-
-
-fwrite(rcs, "temp/party_votes.csv")

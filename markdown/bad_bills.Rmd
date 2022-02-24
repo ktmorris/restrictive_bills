@@ -1,0 +1,78 @@
+---
+title: "A Right Restricted"
+subtitle: "Understanding the Introduction and Passage of Restrictive Voting Laws"
+thanks: TKTKT
+author: Kevin Morris^[Researcher, Brennan Center for Justice (kevin.morris[at]nyu.edu).]
+institute: "Brennan Center for Justice"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  bookdown::pdf_document2:
+    toc: no
+    fig_caption: yes
+    latex_engine: xelatex
+    keep_tex: true
+bibliography: "bad_bills.bib"
+link-citations: yes
+fontsize: 12pt
+header-includes:
+    - \usepackage{rotating}
+    - \usepackage{setspace}
+    - \usepackage{lscape}
+    - \usepackage{pdfpages}
+    - \newcommand{\beginsupplement}{\setcounter{table}{0}  \renewcommand{\thetable}{A\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{A\arabic{figure}}}
+    - \usepackage{lineno}
+    - \linenumbers
+abstract: |
+  TKTKT
+---
+\pagenumbering{gobble}
+\pagebreak
+```{r setup, echo = F, message = F, warning = F}
+knitr::opts_knit$set(root.dir = "..", dev = "cairo_pdf")
+library(kableExtra)
+library(extrafont)
+```
+\pagenumbering{arabic}
+\doublespacing
+# Recent Work on Restrictive voting Laws
+
+Over the past 15 years, scholars have explored the introduction and passage of restrictive of restrictive voting laws across the country. This work has largely focused on state-level factors, with a general consensus that these laws find the most fertile ground in states with large demographic change and a growing nonwhite electorate [@Bentele2013], where large numbers of Black Americans reside [@Behrens2003], and in electorally competitive states where Republicans hold a slight edge [@Hicks2015].
+
+@Behrens2003 uses a historical approach to understand the passage of laws disenfranchising citizens convicted of felony offenses. As they note, all but two American states restrict voting rights for at least some incarcerated citizens; the two that do not---Maine and Vermont---are also the two whitest states in the nation. Behrens and colleagues document the rise of these restrictive laws in the aftermath of the passage of the 14th and 15th Amendments, expanding formal citizenship and granting voting rights to Black men. Drawing on @Blumer1958 and other scholars of group threat, they argue that white (male) Americans were threatened by the prospect that their sole control over the political domain was no longer so secure. Of course, their claims to racial political dominance were threatened proportionate to the number of nonwhite potential voters; as such, states with larger nonwhite populations had political incentives to develop new ways to disenfranchise Black men. They find strong support for the theory that the widespread adoption of felony disenfranchisement rules rose from this threat. "Our key finding can be summarized concisely and forcefully", they write. "The racial composition of state prisons is firmly associated with the adoption of state felon disenfranchisement laws. States with greater nonwhite prison populations have been more likely to ban convicted felons from voting than states with proportionally fewer nonwhites in the criminal justice system" [@Behrens2003, 596]. There conclusions have been corroborated more recently. @Eubank2022 finds that states subject to strict federal oversight under the 1965 Voting Rights Act's Section 5 selectively increased the incarceration of Black Americans, providing further evidence that increased political opportunity for racial minorities leads white majorities to seek other ways of restricting their effective power.
+
+Of course, the incarceration of citizens and subsequent legal disenfranchisement is perhaps only the most drastic example of curtailing access to the ballot.^[It bears noting, however, that being drastic does not mean it is uncommon. More than 6% of Black Americans were legally disenfranchised in 2020 due to a felony conviction. This number topped 10% in 7 of the 33 states where the Black voting age population exceeded 100,000 [@Uggen2020].] Might less extreme attempts to limit the pool of eligible voters follow a similar pattern? And do such considerations structure legislative behavior in the modern era? @Bentele2013 consider the introduction and passage of 5 types of restrictive voting legislation ("photo identification requirements, proof of citizenship requirements, laws that introduce restrictions on voter registration, restrictions on absentee and early voting, and restrictions on participation by felons" (1095)) over the 2006--2011 period. They conclude that the strongest predictor of the introduction and passage of restrictive voting laws is the political power demonstrated by racial and ethnic minorities, arguing that "legislative developments in this policy area remain heavily shaped by racial considerations" [@Bentele2013, 1089]. At the same time, they find no evidence that prevalence of voter fraud impacted the introduction of restrictive provisions and that it is "only a minor contributing factor" to the passage of these laws in 2011 (1103).
+
+A further insight from @Bentele2013---that restrictive provisions are passed most frequently in electorally-competitive states---is corroborated by @Hicks2015. EXPAND
+
+This scholarship sheds important light on where restrictive voting laws are the most likely to go into effect, and the results are not encouraging. There is strong evidence that racial threat predicts the passage of these restrictive bills across the country, even as legislators proclaim that the changes are needed to combat widespread fraud [see, for instance, @Piven2009; @Minnite2010].  Important as this research has been, however, it fails to explain the full set of dynamics between demographic composition and bill introduction. The explosion in the introduction of restrictive voting laws in 2021 makes this clear: according to the data from the Brennan Center for Justice used throughout this project, just one state (Vermont) introduced *no* voting bills in 2021 containing no restrictive provisions. Moreover, the number of restrictive provisions introduced and passed in 2021 has little historical precedent: 880 restrictive provisions were introduced and 93 were passed. By way of comparison, @Bentele2013---which also used data from the Brennan Center---calls roughly the roughly 20 passed provisions in 2011 a "dramatic increase" (1088; see their Figure 2).
+
+Clearly, something more complex than state-level factors are at play in the contemporary push to restrict voting rights. By considering not only state-level factors but also examining the demographics of the districts represented by legislators who introduce, co-sponsor, and vote for these restrictive bills, this project marks a significant step forward in understanding how racial threat's influence on the policy-making process is mediated by factors at multiple political levels. The following section steps back to engage with the (racial) threat literature and, more specifically, consider how spatially-situated theories of threat help us to formulate expectations about the roles played by state and local factors in the introduction and passage of restrictive voting laws.
+
+# A Changing Electorate and Threat
+
+Scholars across the social sciences have long noted the importance of threat to the policy-making process; indeed, each of the studies discussed in the previous section implicitly or explicitly draw on this literature. @Tilly1978 separates collective action into three categories: defensive, offensive, and preparatory (73). Of these, two---defensive and preparatory---are explicitly linked to threats, where political actors pool their resources to fend of challenges to their interests, or to regain what has already been lost. @Beck2000 extends this theory to note that defensive actors need only *perceive* that their interests have been compromised to mobilize in a reactionary way; the *reality* of any worsened station is perhaps less important. These threats can take multiple forms, be they economic, political, or demographic [@VanDyke2002].
+
+The social sciences are replete with empirical evidence of the mobilizing effect of these three forms of threat. Early work on collective action demonstrates that unemployed workers 
+
+Only recently, however, have the spatial dynamics of racial threat and policy threat been considered with serious attention. They conclude: "theoretical insights derived from analyses at one political scale will not necessarily hold for higher or lower-level units" [@Andrews2015, 503].
+
+# Methods and Matierals
+
+Throughout our analyses, I rely on the Voting Laws Roundup, a project of the Brennan Center for Justice at NYU School of Law. The Brennan Center systematically reviews all laws introduced around the country that relate to voting and the administration of elections in each state. The Brennan Center then manually separates each bill introduced into its constituent provisions, using two coders to designate each provision as "restrictive," "neutral," or "expansive." Each provision is also assigned to a category describing its effect (categories include effects such as "voter ID", "polling place count", or "funding for poll workers"). In 2021, the Brennan Center identified 2,891 bills that were introduced and related to voting, consisting of 5,961 provisions. Of these provisions, 815 were deemed restrictive; 3,461 neutral; and 1,685 expansive. A total of 72 restrictive provisions were passed into law that year; 157 neutral provisions and 19 expansive ones were also passed. Figure \ref{fig:cols} shows the categorical breakdown of restrictive provisions introduced and passed, while Figure \ref{fig:maps} shows the geographical distribution of these provisions.
+
+```{r cols, echo = FALSE, message = F, warning = F, fig.width = 7.5, fig.height = 5, fig.cap = "\\label{fig:cols}Categories of Restrictive Provisions, 2021", fig.pos = "!ht", fig.align = "center"}
+print(readRDS("temp/column_cat_provs.rds"))
+```
+
+```{r maps, echo = FALSE, message = F, warning = F, fig.width = 7.5, fig.height = 3, fig.cap = "\\label{fig:maps}Restrictive Provisions, 2021", fig.pos = "!ht", fig.align = "center"}
+print(readRDS("temp/map_provs.rds"))
+```
+
+These provisions are then merged with data from LegiScan, which tracks bills of all kinds in statehouses throughout the United States. The LegiScan data includes information on bill sponsorship, roll-call votes, and dates of introduction. These data are used to identify the (co)sponsors of all the voting laws identified by the Brennan Center, as well as the legislators voting in favor or against them.
+
+To account for pre-2021 variation in the electoral landscape, I incorporate each state's score on the (pre-COVID) 2020 Cost of Voting Index [@Schraufnagel2020]. This index captures many of the same items tracked by the Brennan Center, such as whether a state has same-day registration, voter ID laws, and the number of days of early voting. The index is widely used by social scientists to measure the difficulty of voting [e.g. @Juelich2020; @Pabayo2021; @Rackey2022].
+
+In addition to these measures of voting legislation and policy environment, I incorporate demographic data at the state and legislative-district level from the Census Bureau's American Communities Survey. Except where noted, these estimates are the 5-year numbers ending with 2019.^[At the time of writing, the 2020 estimates were not yet available. The study will be updated when they become available.]
+
+\newpage
+# References {-}
