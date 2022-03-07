@@ -125,20 +125,20 @@ demos$change_white <- demos$nh_white / demos$nh_white_2009
 demos <- filter(demos, !is.na(share_dem))
 
 m1a <- lm(sp_intro ~ poly(nh_white, 2)*state_nh_white, filter(demos, chamber == "HD", impact == "R"))
-m1b <- lm(sp_intro ~ poly(nh_white, 2)*state_nh_white + poly(share_dem, 2) +
+m1b <- lm(sp_intro ~ poly(nh_white, 2)*state_nh_white + share_dem +
             median_income + median_age + population +
             some_college, filter(demos, chamber == "HD", impact == "R"))
 m1c <- lm(sp_intro ~ poly(nh_white, 2)*state_nh_white, filter(demos, chamber == "SD", impact == "R"))
-m1d <- lm(sp_intro ~ poly(nh_white, 2)*state_nh_white + poly(share_dem, 2) +
+m1d <- lm(sp_intro ~ poly(nh_white, 2)*state_nh_white + share_dem +
             median_income + median_age + population +
             some_college, filter(demos, chamber == "SD", impact == "R"))
 
 m2a <- lm(sp_intro ~ poly(nh_white, 2)*state_nh_white, filter(demos, chamber == "HD", impact == "E"))
-m2b <- lm(sp_intro ~ poly(nh_white, 2)*state_nh_white + poly(share_dem, 2) +
+m2b <- lm(sp_intro ~ poly(nh_white, 2)*state_nh_white + share_dem +
             median_income + median_age + population +
             some_college, filter(demos, chamber == "HD", impact == "E"))
 m2c <- lm(sp_intro ~ poly(nh_white, 2)*state_nh_white, filter(demos, chamber == "SD", impact == "E"))
-m2d <- lm(sp_intro ~ poly(nh_white, 2)*state_nh_white + poly(share_dem, 2) +
+m2d <- lm(sp_intro ~ poly(nh_white, 2)*state_nh_white + share_dem +
             median_income + median_age + population +
             some_college, filter(demos, chamber == "SD", impact == "E"))
 
@@ -172,7 +172,7 @@ p1 <- ggplot(filter(marg, type == "Restrictive"), aes(x = x, y = predicted,
   facet_grid(. ~ chamber) +
   geom_ribbon(alpha = 0.2) +
   geom_line() +
-  theme_bc(legend.position = "bottom") +
+  theme_bc(legend.position = "none") +
   scale_x_continuous(breaks = seq(0, 1, .25), labels = scales::percent) +
   labs(x = "White Share of District Population",
        y = "P(Sponsored Restrictive Provision(s))",
@@ -232,7 +232,7 @@ j <- rbind(data.table(V0 = "\\textit{p}-value of Joint Significance Test"),
                cbind(data.table(V0 = "on Nonhispanic White Terms"),
                      setDT(as.list(j))[]), fill = T) %>% 
   mutate(across(everything(), ~ ifelse(is.na(.), "", .)))
-attr(j, 'position') <- c(21, 22)
+attr(j, 'position') <- c(23, 24)
 
 modelsummary(models,
              statistic = "std.error",
@@ -243,6 +243,7 @@ modelsummary(models,
                           "state_nh_white" = "State \\% Nonhispanic White",
                           "poly(nh_white, 2)1:state_nh_white" = "Nonhispanic White $\\times$ State \\% Nonhispanic White",
                           "poly(nh_white, 2)2:state_nh_white" = "Nonhispanic White\\textsuperscript{2} $\\times$ State \\% Nonhispanic White",
+                          "share_dem" = "Biden 2020 Voteshare",
                           "median_income" = "Median Income (\\$10,000s)",
                           "median_age" = "Median Age",
                           "some_college" = "Share with Some College",
