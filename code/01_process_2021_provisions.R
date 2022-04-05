@@ -49,10 +49,31 @@ all_bills <- all_bills %>%
 slall <- select(all_bills, bill_id, bill_number, year, bill_merge, title)
 #######
 
-provs <- fread("raw_data/2021_provisions.csv")[,c(1, 2, 3, 4, 18, 9, 11)]
+provs <- fread("raw_data/2021_provisions_no_ams.csv")[,c(1, 2, 3, 4, 18, 9, 11)]
 colnames(provs) <- c("state", "bill", "subject", "impact", "year", "date_added", "url")
 
-provs <- provs %>% 
+provs$pass <- F
+
+p <- fread("raw_data/22.3.17 2021 Enacted Restrictive Bills by Provision - Sheet1.csv")[,c(1:4)]
+
+colnames(provs) <- c("state", "bill", "subject", "impact", "year", "date_added", "url", "pass")
+colnames(p) <- c("state", "bill", "subject", "impact")
+
+p <- p %>% 
+  mutate(bill = case_when(bill == "IA SF 413" ~ "IA SF 413/IA SSB 1199",
+                          bill == "IA SF 568" ~ "IA SSB 1237/IA SF 568",
+                          bill == "MT SB 176" ~ "MT HB 176",
+                          TRUE ~ bill),
+         year = ifelse(bill == "TX SB 1", "2021 (S-2)", "2021"),
+         pass = T)
+
+p <- left_join(p, provs %>% 
+                 group_by(bill, state, year) %>% 
+                 filter(row_number() == 1) %>% 
+                 select(bill, state, year, date_added))
+
+provs <- bind_rows(provs %>% 
+                     filter(!(paste0(bill, year, state) %in% paste0(p$bill, p$year, p$state))), p) %>% 
   mutate(date_added = as.Date(date_added, "%m/%d/%Y")) %>% 
   filter(year != "") %>% 
   mutate(bill_merge = trimws(paste(substring(bill, 1, 2),
@@ -174,7 +195,10 @@ provs <- provs %>%
          year = ifelse(bill_merge %in% c("MN SF2", "TX HB82"), "2021 (S)", year)) %>% 
   filter(substring(bill_merge, 1, 5) != "KY BR",
          bill_merge != "MA H2559",
-         state != "")
+         state != "") %>% 
+  group_by(bill, year, state) %>% 
+  mutate(date_added = min(date_added)) %>% 
+  ungroup()
 
 provs <- left_join(provs,
                    fread("raw_data/cleaner.csv") %>% 
@@ -212,12 +236,6 @@ provs <- left_join(provs,
   select(-subject) %>% 
   filter(!is.na(group),
          !is.na(impact))
-
-passage <- fread("raw_data/2021 Restrictive Bills - passed 2021.csv") %>% 
-  mutate(`BILL NUMBER` = ifelse(`BILL NUMBER` == "IA SF 413", "IA SF 413/IA SSB 1199", `BILL NUMBER`),
-         `BILL NUMBER` = ifelse(`BILL NUMBER` == "IA SF 568", "IA SSB 1237/IA SF 568", `BILL NUMBER`))
-
-provs$pass <- provs$bill %in% passage$`BILL NUMBER`
 
 provs <- left_join(provs, bn) %>% 
   select(-bill) %>% 
