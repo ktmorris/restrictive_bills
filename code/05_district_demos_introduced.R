@@ -362,3 +362,4 @@ whether the state was competitive in the 2020 election;
 whether the state has unified Republican control.") +
   scale_y_continuous(labels = scales::percent)
 f
+saveRDS(f, "temp/mef_rr.rds")

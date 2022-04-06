@@ -155,5 +155,9 @@ While legislators claim to pass restrictive voter policies under the guise of im
 
 A similar pattern emerges in this study of regressive voting laws introduced and passed in 2021, following the hard-fought and deeply polarizing 2020 presidential election and subsequent violent attempt to overturn the results on January 6th, 2021. Although the push to restrict voting access was extremely broad in 2021---more than 1 in 3 Americans lived in a district represented by a legislator who sponsored at least one of the 812 restrictive provisions---the push was concentrated in states and legislative districts with particular, systematic demographic characteristics.
 
+```{r mefs-rr, echo = FALSE, message = F, warning = F, fig.width = 6, fig.height = 7, fig.cap = "\\label{fig:mef-rr}Provisions Sponsored by Chamber", fig.pos = "!ht", fig.align = "center"}
+print(readRDS("temp/mef_rr.rds"))
+```
+
 \newpage
 # References {-}
