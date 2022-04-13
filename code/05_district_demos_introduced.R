@@ -116,7 +116,18 @@ demos <- left_join(demos,
   filter(!is.na(nh_white))
 
 demos <- left_join(demos, readRDS("temp/district_biden_share.rds") %>% 
-                     select(-state))
+                     select(-state)) %>% 
+  mutate(share_dem = 1 - share_dem)
+
+dist_share_ky_wv <- readRDS("temp/ky_wv_dist_dem_share.rds")
+
+demos <- bind_rows(
+  filter(demos, !is.na(share_dem)),
+  left_join(filter(demos, is.na(share_dem)) %>% 
+              select(-share_dem),
+            dist_share_ky_wv) %>% 
+    mutate(share_dem = 1 - share_dem)
+)
 
 demos <- mutate(demos,
                 south = substring(GEOID, 1, 2) %in%
@@ -168,36 +179,31 @@ demos$sp_pass <- demos$sp_pass * 100
 cleanup("demos")
 
 rr <- readRDS("temp/district_rr.rds")
-rr <- bind_rows(
-  rr %>% 
-    group_by(GEOID = upper) %>% 
-    summarize(resent = mean(rr, na.rm = T)) %>% 
-    mutate(chamber = "SD"),
-  rr %>% 
-    group_by(GEOID = lower) %>% 
-    summarize(resent = mean(rr, na.rm = T)) %>% 
-    mutate(chamber = "HD")
-)
 
-demos <- left_join(demos, rr)
+demos <- left_join(select(demos, -n), rr)
 demos <- as.data.frame(demos)
 cleanup("demos")
 #####################################
 #####################################
 #####################################
-
+demos <- demos[complete.cases(select(demos, sp_intro,
+                                     nh_white, state_nh_white, share_dem,
+                                     median_income, median_age, population,
+                                     some_college, competitive, r)), ]
 
 m1a <- feols(sp_intro ~ poly(nh_white, 2)*state_nh_white, filter(demos, chamber == "HD", impact == "R"), vcov = "HC1")
-m1b <- feols(sp_intro ~ poly(nh_white, 2)*state_nh_white + share_dem +
+m1aa <- feols(sp_intro ~ poly(share_dem, 2), filter(demos, chamber == "HD", impact == "R"), vcov = "HC1")
+m1b <- feols(sp_intro ~ poly(nh_white, 2)*state_nh_white + poly(share_dem, 2) +
             median_income + median_age + population +
             some_college + competitive + r, filter(demos, chamber == "HD", impact == "R"), vcov = "HC1")
 m1c <- feols(sp_intro ~ poly(nh_white, 2)*state_nh_white, filter(demos, chamber == "SD", impact == "R"), vcov = "HC1")
-m1d <- feols(sp_intro ~ poly(nh_white, 2)*state_nh_white + share_dem +
+m1cc <- feols(sp_intro ~ poly(share_dem, 2), filter(demos, chamber == "SD", impact == "R"), vcov = "HC1")
+m1d <- feols(sp_intro ~ poly(nh_white, 2)*state_nh_white + poly(share_dem, 2) +
             median_income + median_age + population +
             some_college + competitive + r, filter(demos, chamber == "SD", impact == "R"), vcov = "HC1")
 
 
-models <- list(m1a, m1b, m1c, m1d)
+models <- list(m1a, m1aa, m1b, m1c, m1cc, m1d)
 
 marg <- bind_rows(
   ggeffect(model = m1a, terms = c("nh_white[all]", "state_nh_white[50, 80]")) %>% 
@@ -230,22 +236,63 @@ f <- ggplot(filter(marg), aes(x = x, y = predicted,
   geom_ribbon(alpha = 0.2, linetype = "solid") +
   geom_line() +
   theme_bc(legend.position = "bottom") +
-  scale_color_manual(values = bc_colors(demos$r)) +
-  scale_fill_manual(values = bc_colors(demos$r)) +
+  scale_color_manual(values = bc_colors(demos$chamber)) +
+  scale_fill_manual(values = bc_colors(demos$chamber)) +
   scale_x_continuous(breaks = seq(0, 1, .25), labels = scales::percent,
                      limits = c(.25, 1)) +
   labs(x = "White Share of District Population",
-       y = "P(Sponsored Restrictive Provision(s))",
+       y = "Probability Representative\nSponsored Restrictive Provision(s)",
        fill = "White Share of\nState Population",
        color = "White Share of\nState Population",
        linetype = "White Share of\nState Population",
-       caption = "Covariates include Biden 2020 voteshare; median income; median age; 
+       caption = "Covariates include Trump 2020 voteshare; median income; median age; 
 share with some college; log(population);
 whether the state was competitive in the 2020 election;
 whether the state has unified Republican control.") +
   scale_y_continuous(labels = scales::percent)
 f
 saveRDS(f, "temp/mef_chamb_good.rds")
+#####
+marg <- bind_rows(
+  ggeffect(model = m1aa, terms = c("share_dem[all]")) %>% 
+    mutate(group = paste0(group, "%"),
+           chamber = "Lower Chamber",
+           type = "No Covariates"),
+  ggeffect(model = m1b, terms = c("share_dem[all]")) %>% 
+    mutate(group = paste0(group, "%"),
+           chamber = "Lower Chamber",
+           type = "Covariates"),
+  ggeffect(model = m1cc, terms = c("share_dem[all]")) %>% 
+    mutate(group = paste0(group, "%"),
+           chamber = "Upper Chamber",
+           type = "No Covariates"),
+  ggeffect(model = m1d, terms = c("share_dem[all]")) %>% 
+    mutate(group = paste0(group, "%"),
+           chamber = "Upper Chamber",
+           type = "Covariates")
+) %>% 
+  mutate(across(c(x, predicted, conf.low, conf.high), ~ . / 100))
+
+marg$type <- factor(marg$type, levels = c("No Covariates", "Covariates"))
+
+f <- ggplot(filter(marg), aes(x = x, y = predicted,
+                              ymin = conf.low, ymax = conf.high)) +
+  facet_grid(type ~ chamber) +
+  geom_ribbon(alpha = 0.2, linetype = "solid") +
+  geom_line() +
+  theme_bc() +
+  scale_x_continuous(breaks = seq(0, 1, .25), labels = scales::percent,
+                     limits = c(.0, 1)) +
+  labs(x = "Trump 2020 Voteshare",
+       y = "Probability Representative\nSponsored Restrictive Provision(s)",
+       caption = "Covariates include district and state white share of population (and interaction);
+median income; median age; 
+share with some college; log(population);
+whether the state was competitive in the 2020 election;
+whether the state has unified Republican control.") +
+  scale_y_continuous(labels = scales::percent)
+f
+saveRDS(f, "temp/mef_chamb_party.rds")
 
 ####################################################
 
@@ -260,66 +307,40 @@ modelsummary(models,
                           "poly(nh_white, 2)2:state_nh_white" = "Nonhispanic White\\textsuperscript{2} $\\times$ State \\% Nonhispanic White",
                           "poly(nh_white, 2):state_nh_white1" = "Nonhispanic White $\\times$ State \\% Nonhispanic White",
                           "poly(nh_white, 2):state_nh_white2" = "Nonhispanic White\\textsuperscript{2} $\\times$ State \\% Nonhispanic White",
-                          "share_dem" = "Biden 2020 Voteshare",
+                          "poly(share_dem, 2)1" = "Trump 2020 Voteshare",
+                          "poly(share_dem, 2)2" = "Trump 2020 Voteshare\\textsuperscript{2}",
                           "median_income" = "Median Income (\\$10,000s)",
                           "median_age" = "Median Age",
                           "some_college" = "Share with Some College",
                           "population" = "Log(Population)",
+                          "competitiveTRUE" = "State Competitive in 2020",
+                          "rTRUE" = "State has Unified Republican Control",
                           "(Intercept)" = "Intercept"),
              escape = F,
              fmt = 1,
              output = "latex",
              title = "\\label{tab:chamb} District-Level Sponsored Provisions, 2021",
              # add_rows = j,
-             notes = c("95\\\\% confidence intervals shown below estimates.","", "and \\\\textit{Share with Some College} can range from 0 to 100.", "The dependent variable, \\\\textit{Nonhispanic White}, \\\\textit{State \\\\% Nonhispanic White},
-             \\\\textit{Biden 2020 Voteshare},",
+             notes = c("95\\\\% confidence intervals shown below estimates and computed with robust standard errors.","", "and \\\\textit{Share with Some College} can range from 0 to 100.", "The dependent variable, \\\\textit{Nonhispanic White}, \\\\textit{State \\\\% Nonhispanic White},
+             \\\\textit{Trump 2020 Voteshare},",
                        "\\\\textit{Nonhispanic White} and \\\\textit{Nonhispanic White\\\\textsuperscript{2}} computed using orthogonal polynomials.")) %>% 
-  add_header_above(c("", "Lower Chamber" = 2, "Upper Chamber" = 2)) %>%
+  add_header_above(c("", "Lower Chamber" = 3, "Upper Chamber" = 3)) %>%
   kable_styling(latex_options = "scale_down") %>% 
   save_kable("temp/district_reg.tex")
 
-modelsummary(models[1:4],
-             statistic = "[{conf.low}, {conf.high}]",
-             stars = c("*" = 0.1, "**" = 0.05, "***" = 0.01),
-             gof_omit = 'DF|Deviance|AIC|BIC|Within|Pseudo|Log|Std|FE|F',
-             coef_map = c("poly(nh_white, 2)1" = "Nonhispanic White",
-                          "poly(nh_white, 2)2" = "Nonhispanic White\\textsuperscript{2}",
-                          "state_nh_white" = "State \\% Nonhispanic White",
-                          "poly(nh_white, 2):state_nh_white1" = "Nonhispanic White $\\times$ State \\% Nonhispanic White",
-                          "poly(nh_white, 2):state_nh_white2" = "Nonhispanic White\\textsuperscript{2} $\\times$ State \\% Nonhispanic White",
-                          "poly(nh_white, 2)1:state_nh_white" = "Nonhispanic White $\\times$ State \\% Nonhispanic White",
-                          "poly(nh_white, 2)2:state_nh_white" = "Nonhispanic White\\textsuperscript{2} $\\times$ State \\% Nonhispanic White",
-                          "share_dem" = "Biden 2020 Voteshare",
-                          "median_income" = "Median Income (\\$10,000s)",
-                          "median_age" = "Median Age",
-                          "some_college" = "Share with Some College",
-                          "population" = "Log(Population)",
-                          "(Intercept)" = "Intercept"),
-             escape = F,
-             fmt = 1,
-             output = "latex",
-             title = "\\label{tab:chamb} District-Level Sponsored Provisions, 2021",
-             # add_rows = j[,c(1:5)],
-             notes = rev(c("\\\\textit{Nonhispanic White} and \\\\textit{Nonhispanic White\\\\textsuperscript{2}} computed using orthogonal polynomials.",
-                         "The dependent variable, \\\\textit{Nonhispanic White}, \\\\textit{State \\\\% Nonhispanic White},
-             \\\\textit{Biden 2020 Voteshare},", "and \\\\textit{Share with Some College} can range from 0 to 100.", "",
-                         "95\\\\% confidence intervals shown below estimates."))) %>% 
-  kable_styling(font_size = 10) %>%
-  add_header_above(c("", "Lower Chamber" = 2, "Upper Chamber" = 2)) %>% 
-  save_kable("temp/district_reg_slim.tex")
+
 
 #####################################
 #####################################
 #####################################
-
 m1a <- feols(sp_intro ~ resent, filter(demos, chamber == "HD", impact == "R"), vcov = "HC1")
-m1b <- feols(sp_intro ~ resent + share_dem +
+m1b <- feols(sp_intro ~ resent + poly(share_dem, 2) +
                median_income + median_age + population +
-               some_college + competitive + r + nh_white, filter(demos, chamber == "HD", impact == "R"), vcov = "HC1")
+               some_college + competitive + r + poly(nh_white, 2), filter(demos, chamber == "HD", impact == "R"), vcov = "HC1")
 m1c <- feols(sp_intro ~ resent, filter(demos, chamber == "SD", impact == "R"), vcov = "HC1")
-m1d <- feols(sp_intro ~ resent + share_dem +
+m1d <- feols(sp_intro ~ resent + poly(share_dem, 2) +
                median_income + median_age + population +
-               some_college + competitive + r + nh_white, filter(demos, chamber == "SD", impact == "R"), vcov = "HC1")
+               some_college + competitive + r + poly(nh_white, 2), filter(demos, chamber == "SD", impact == "R"), vcov = "HC1")
 
 
 models <- list(m1a, m1b, m1c, m1d)
@@ -355,11 +376,40 @@ f <- ggplot(filter(marg), aes(x = x, y = predicted,
   scale_x_continuous(breaks = seq(1, 5, 1),
                      limits = c(1, 5)) +
   labs(x = "District Racial Resentment Score",
-       y = "P(Sponsored Restrictive Provision(s))",
-       caption = "Covariates include Biden 2020 voteshare; median income; median age; 
+       y = "Probability Representative\nSponsored Restrictive Provision(s)",
+       caption = "Covariates include Trump 2020 voteshare; median income; median age; 
 share with some college; log(population); white share of district;
 whether the state was competitive in the 2020 election;
 whether the state has unified Republican control.") +
   scale_y_continuous(labels = scales::percent)
 f
 saveRDS(f, "temp/mef_rr.rds")
+
+
+modelsummary(models,
+             statistic = "[{conf.low}, {conf.high}]",
+             stars = c("*" = 0.1, "**" = 0.05, "***" = 0.01),
+             gof_omit = 'DF|Deviance|AIC|BIC|Within|Pseudo|Log|Std|FE|F',
+             coef_map = c("resent" = "Racial Resentment Score",
+                          "poly(nh_white, 2)1" = "Nonhispanic White",
+                          "poly(nh_white, 2)2" = "Nonhispanic White\\textsuperscript{2}",
+                          "poly(share_dem, 2)1" = "Trump 2020 Voteshare",
+                          "poly(share_dem, 2)2" = "Trump 2020 Voteshare\\textsuperscript{2}",
+                          "median_income" = "Median Income (\\$10,000s)",
+                          "median_age" = "Median Age",
+                          "some_college" = "Share with Some College",
+                          "population" = "Log(Population)",
+                          "competitiveTRUE" = "State Competitive in 2020",
+                          "rTRUE" = "State has Unified Republican Control",
+                          "(Intercept)" = "Intercept"),
+             escape = F,
+             fmt = 1,
+             output = "latex",
+             title = "\\label{tab:chamb} District-Level Sponsored Provisions, 2021",
+             # add_rows = j,
+             notes = c("95\\\\% confidence intervals shown below estimates and computed with robust standard errors.","", "and \\\\textit{Share with Some College} can range from 0 to 100.", "The dependent variable, \\\\textit{Nonhispanic White}, \\\\textit{State \\\\% Nonhispanic White},
+             \\\\textit{Trump 2020 Voteshare},",
+                       "\\\\textit{Nonhispanic White} and \\\\textit{Nonhispanic White\\\\textsuperscript{2}} computed using orthogonal polynomials.")) %>% 
+  add_header_above(c("", "Lower Chamber" = 2, "Upper Chamber" = 2)) %>%
+  kable_styling(latex_options = "scale_down") %>% 
+  save_kable("temp/district_reg_rr.tex")
