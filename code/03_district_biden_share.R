@@ -23,7 +23,7 @@ dat <- rbindlist(lapply(d, function(s){
   lower_chambers <- pd@data %>%
     mutate_at(vars(starts_with("G20")), ~ as.integer(gsub(",", "", .))) %>%
     group_by(lower) %>% 
-    summarize(across(starts_with("G20PRE"), sum),
+    summarize(across(c("G20PREDBID", "G20PRERTRU"), sum),
               n = n()) %>% 
     mutate(share_dem = G20PREDBID /
              (rowSums(select(., starts_with("G20PRE"))))) %>% 
@@ -34,7 +34,7 @@ dat <- rbindlist(lapply(d, function(s){
   upper_chambers <- pd@data %>%
     mutate_at(vars(starts_with("G20")), ~ as.integer(gsub(",", "", .))) %>%
     group_by(upper) %>% 
-    summarize(across(starts_with("G20PRE"), sum),
+    summarize(across(c("G20PREDBID", "G20PRERTRU"), sum),
               n = n()) %>% 
     mutate(share_dem = G20PREDBID /
              (rowSums(select(., starts_with("G20PRE"))))) %>% 
