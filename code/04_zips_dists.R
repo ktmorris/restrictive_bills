@@ -22,23 +22,8 @@ all <- rbindlist(lapply(unique(filter(fips_codes, state_code <= 56,
 
 saveRDS(all, "temp/all_blocks_zips_chambers.rds")
 
-upper_z <- all %>% 
-  group_by(upper, zip) %>% 
-  summarize(pop = sum(POP20)) %>% 
-  group_by(zip) %>% 
-  arrange(-pop) %>% 
-  filter(row_number() == 1)
 
-lower_z <- all %>% 
-  group_by(lower, zip) %>% 
-  summarize(pop = sum(POP20)) %>% 
-  group_by(zip) %>% 
-  arrange(-pop) %>% 
-  filter(row_number() == 1)
-
-saveRDS(upper_z, "temp/upper_zips.rds")
-saveRDS(lower_z, "temp/lower_zips.rds")
-
+all <- readRDS("temp/all_blocks_zips_chambers.rds")
 #########################
 
 cces <- fread("../regular_data/cces/CCES 2020/CES20_Common_OUTPUT_vv.csv",
@@ -47,15 +32,24 @@ cces <- fread("../regular_data/cces/CCES 2020/CES20_Common_OUTPUT_vv.csv",
   filter(race == 1) %>% 
   mutate(CC20_441a = 6 - CC20_441a,
          rr = (CC20_441a + CC20_441b) / 2) %>% 
-  select(rr, lookupzip) %>% 
-  group_by(zip = lookupzip) %>% 
-  summarize(rr = mean(rr)) %>% 
-  mutate(zip = str_pad(zip, width = 5, side = "left", pad = "0"))
+  mutate(zip = str_pad(zip, width = 5, side = "left", pad = "0")) %>% 
+  group_by(zip) %>% 
+  summarize(rr = mean(rr, na.rm = T))
 
-cces <- left_join(cces, readRDS("temp/upper_zips.rds")) %>% 
-  select(-pop)
+all <- left_join(all, cces)
 
-cces <- left_join(cces, readRDS("temp/lower_zips.rds")) %>% 
-  select(-pop)
+ll <- bind_rows(
+  all %>% 
+    group_by(GEOID = upper) %>% 
+    summarize(resent = weighted.mean(rr, POP20, na.rm = T),
+              n = n()) %>% 
+    mutate(chamber = "SD"),
+  all %>% 
+    group_by(GEOID = lower) %>% 
+    summarize(resent = weighted.mean(rr, POP20, na.rm = T),
+              n = n()) %>% 
+    mutate(chamber = "HD")
+)
 
-saveRDS(cces, "temp/district_rr.rds")
+
+saveRDS(ll, "temp/district_rr.rds")
