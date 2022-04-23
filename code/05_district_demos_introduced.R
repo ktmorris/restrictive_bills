@@ -117,17 +117,7 @@ demos <- left_join(demos,
 
 demos <- left_join(demos, readRDS("temp/district_biden_share.rds") %>% 
                      select(-state)) %>% 
-  mutate(share_dem = 1 - share_dem)
-
-dist_share_ky_wv <- readRDS("temp/ky_wv_dist_dem_share.rds")
-
-demos <- bind_rows(
-  filter(demos, !is.na(share_dem)),
-  left_join(filter(demos, is.na(share_dem)) %>% 
-              select(-share_dem),
-            dist_share_ky_wv) %>% 
-    mutate(share_dem = 1 - share_dem)
-)
+  mutate(share_rep = 1 - share_dem)
 
 demos <- mutate(demos,
                 south = substring(GEOID, 1, 2) %in%
@@ -140,10 +130,10 @@ demos <- mutate(demos,
 demos$change_white <- demos$nh_white / demos$nh_white_2009
 
 demos <- demos %>% 
-  mutate(across(c(nh_white, state_nh_white, some_college, share_dem), ~ . * 100),
+  mutate(across(c(nh_white, state_nh_white, some_college, share_rep), ~ . * 100),
          state_code = substring(GEOID, 1, 2))
 
-# demos <- filter(demos, !is.na(share_dem))
+# demos <- filter(demos, !is.na(share_rep))
 
 comp <- fread("raw_data/1976-2020-president.csv") %>% 
   group_by(state, party_simplified, year) %>% 
@@ -182,23 +172,24 @@ rr <- readRDS("temp/district_rr.rds")
 
 demos <- left_join(select(demos, -n), rr)
 demos <- as.data.frame(demos)
-cleanup("demos")
-#####################################
-#####################################
-#####################################
 demos <- demos[complete.cases(select(demos, sp_intro,
-                                     nh_white, state_nh_white, share_dem,
+                                     nh_white, state_nh_white, share_rep,
                                      median_income, median_age, population,
                                      some_college, competitive, r)), ]
+cleanup("demos")
+saveRDS(demos, "temp/demos.rds")
+#####################################
+#####################################
+#####################################
 
 m1a <- feols(sp_intro ~ poly(nh_white, 2)*state_nh_white, filter(demos, chamber == "HD", impact == "R"), vcov = "HC1")
-m1aa <- feols(sp_intro ~ poly(share_dem, 2), filter(demos, chamber == "HD", impact == "R"), vcov = "HC1")
-m1b <- feols(sp_intro ~ poly(nh_white, 2)*state_nh_white + poly(share_dem, 2) +
+m1aa <- feols(sp_intro ~ poly(share_rep, 2), filter(demos, chamber == "HD", impact == "R"), vcov = "HC1")
+m1b <- feols(sp_intro ~ poly(nh_white, 2)*state_nh_white + poly(share_rep, 2) +
             median_income + median_age + population +
             some_college + competitive + r, filter(demos, chamber == "HD", impact == "R"), vcov = "HC1")
 m1c <- feols(sp_intro ~ poly(nh_white, 2)*state_nh_white, filter(demos, chamber == "SD", impact == "R"), vcov = "HC1")
-m1cc <- feols(sp_intro ~ poly(share_dem, 2), filter(demos, chamber == "SD", impact == "R"), vcov = "HC1")
-m1d <- feols(sp_intro ~ poly(nh_white, 2)*state_nh_white + poly(share_dem, 2) +
+m1cc <- feols(sp_intro ~ poly(share_rep, 2), filter(demos, chamber == "SD", impact == "R"), vcov = "HC1")
+m1d <- feols(sp_intro ~ poly(nh_white, 2)*state_nh_white + poly(share_rep, 2) +
             median_income + median_age + population +
             some_college + competitive + r, filter(demos, chamber == "SD", impact == "R"), vcov = "HC1")
 
@@ -254,19 +245,19 @@ f
 saveRDS(f, "temp/mef_chamb_good.rds")
 #####
 marg <- bind_rows(
-  ggeffect(model = m1aa, terms = c("share_dem[all]")) %>% 
+  ggeffect(model = m1aa, terms = c("share_rep[all]")) %>% 
     mutate(group = paste0(group, "%"),
            chamber = "Lower Chamber",
            type = "No Covariates"),
-  ggeffect(model = m1b, terms = c("share_dem[all]")) %>% 
+  ggeffect(model = m1b, terms = c("share_rep[all]")) %>% 
     mutate(group = paste0(group, "%"),
            chamber = "Lower Chamber",
            type = "Covariates"),
-  ggeffect(model = m1cc, terms = c("share_dem[all]")) %>% 
+  ggeffect(model = m1cc, terms = c("share_rep[all]")) %>% 
     mutate(group = paste0(group, "%"),
            chamber = "Upper Chamber",
            type = "No Covariates"),
-  ggeffect(model = m1d, terms = c("share_dem[all]")) %>% 
+  ggeffect(model = m1d, terms = c("share_rep[all]")) %>% 
     mutate(group = paste0(group, "%"),
            chamber = "Upper Chamber",
            type = "Covariates")
@@ -298,7 +289,7 @@ saveRDS(f, "temp/mef_chamb_party.rds")
 
 modelsummary(models,
              statistic = "[{conf.low}, {conf.high}]",
-             stars = c("*" = 0.1, "**" = 0.05, "***" = 0.01),
+             stars = c("*" = 0.05, "**" = 0.01, "***" = 0.001),
              gof_omit = 'DF|Deviance|AIC|BIC|Within|Pseudo|Log|Std|FE|F',
              coef_map = c("poly(nh_white, 2)1" = "Nonhispanic White",
                           "poly(nh_white, 2)2" = "Nonhispanic White\\textsuperscript{2}",
@@ -307,8 +298,8 @@ modelsummary(models,
                           "poly(nh_white, 2)2:state_nh_white" = "Nonhispanic White\\textsuperscript{2} $\\times$ State \\% Nonhispanic White",
                           "poly(nh_white, 2):state_nh_white1" = "Nonhispanic White $\\times$ State \\% Nonhispanic White",
                           "poly(nh_white, 2):state_nh_white2" = "Nonhispanic White\\textsuperscript{2} $\\times$ State \\% Nonhispanic White",
-                          "poly(share_dem, 2)1" = "Trump 2020 Voteshare",
-                          "poly(share_dem, 2)2" = "Trump 2020 Voteshare\\textsuperscript{2}",
+                          "poly(share_rep, 2)1" = "Trump 2020 Voteshare",
+                          "poly(share_rep, 2)2" = "Trump 2020 Voteshare\\textsuperscript{2}",
                           "median_income" = "Median Income (\\$10,000s)",
                           "median_age" = "Median Age",
                           "some_college" = "Share with Some College",
@@ -323,6 +314,7 @@ modelsummary(models,
              # add_rows = j,
              notes = c("95\\\\% confidence intervals shown below estimates and computed with robust standard errors.","", "and \\\\textit{Share with Some College} can range from 0 to 100.", "The dependent variable, \\\\textit{Nonhispanic White}, \\\\textit{State \\\\% Nonhispanic White},
              \\\\textit{Trump 2020 Voteshare},",
+                       "\\\\textit{Trump 2020 Voteshare} and \\\\textit{Trump 2020 Voteshare\\\\textsuperscript{2}} computed using orthogonal polynomials.",
                        "\\\\textit{Nonhispanic White} and \\\\textit{Nonhispanic White\\\\textsuperscript{2}} computed using orthogonal polynomials.")) %>% 
   add_header_above(c("", "Lower Chamber" = 3, "Upper Chamber" = 3)) %>%
   kable_styling(latex_options = "scale_down") %>% 
@@ -334,11 +326,11 @@ modelsummary(models,
 #####################################
 #####################################
 m1a <- feols(sp_intro ~ resent, filter(demos, chamber == "HD", impact == "R"), vcov = "HC1")
-m1b <- feols(sp_intro ~ resent + poly(share_dem, 2) +
+m1b <- feols(sp_intro ~ resent + poly(share_rep, 2) +
                median_income + median_age + population +
                some_college + competitive + r + poly(nh_white, 2), filter(demos, chamber == "HD", impact == "R"), vcov = "HC1")
 m1c <- feols(sp_intro ~ resent, filter(demos, chamber == "SD", impact == "R"), vcov = "HC1")
-m1d <- feols(sp_intro ~ resent + poly(share_dem, 2) +
+m1d <- feols(sp_intro ~ resent + poly(share_rep, 2) +
                median_income + median_age + population +
                some_college + competitive + r + poly(nh_white, 2), filter(demos, chamber == "SD", impact == "R"), vcov = "HC1")
 
@@ -388,13 +380,13 @@ saveRDS(f, "temp/mef_rr.rds")
 
 modelsummary(models,
              statistic = "[{conf.low}, {conf.high}]",
-             stars = c("*" = 0.1, "**" = 0.05, "***" = 0.01),
+             stars = c("*" = 0.05, "**" = 0.01, "***" = 0.001),
              gof_omit = 'DF|Deviance|AIC|BIC|Within|Pseudo|Log|Std|FE|F',
              coef_map = c("resent" = "Racial Resentment Score",
                           "poly(nh_white, 2)1" = "Nonhispanic White",
                           "poly(nh_white, 2)2" = "Nonhispanic White\\textsuperscript{2}",
-                          "poly(share_dem, 2)1" = "Trump 2020 Voteshare",
-                          "poly(share_dem, 2)2" = "Trump 2020 Voteshare\\textsuperscript{2}",
+                          "poly(share_rep, 2)1" = "Trump 2020 Voteshare",
+                          "poly(share_rep, 2)2" = "Trump 2020 Voteshare\\textsuperscript{2}",
                           "median_income" = "Median Income (\\$10,000s)",
                           "median_age" = "Median Age",
                           "some_college" = "Share with Some College",
@@ -405,10 +397,11 @@ modelsummary(models,
              escape = F,
              fmt = 1,
              output = "latex",
-             title = "\\label{tab:chamb} District-Level Sponsored Provisions, 2021",
+             title = "\\label{tab:chamb-rr} District-Level Sponsored Provisions, 2021",
              # add_rows = j,
              notes = c("95\\\\% confidence intervals shown below estimates and computed with robust standard errors.","", "and \\\\textit{Share with Some College} can range from 0 to 100.", "The dependent variable, \\\\textit{Nonhispanic White}, \\\\textit{State \\\\% Nonhispanic White},
              \\\\textit{Trump 2020 Voteshare},",
+                       "\\\\textit{Trump 2020 Voteshare} and \\\\textit{Trump 2020 Voteshare\\\\textsuperscript{2}} computed using orthogonal polynomials.",
                        "\\\\textit{Nonhispanic White} and \\\\textit{Nonhispanic White\\\\textsuperscript{2}} computed using orthogonal polynomials.")) %>% 
   add_header_above(c("", "Lower Chamber" = 2, "Upper Chamber" = 2)) %>%
   kable_styling(latex_options = "scale_down") %>% 
