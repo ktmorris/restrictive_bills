@@ -1,0 +1,62 @@
+---
+title: "Supplementary Information"
+output:
+  bookdown::pdf_document2:
+    toc: yes
+    fig_caption: yes
+    latex_engine: xelatex
+    keep_tex: true
+bibliography: "bad_bills.bib"
+link-citations: yes
+fontsize: 12pt
+header-includes:
+    - \usepackage{rotating}
+    - \usepackage{setspace}
+    - \usepackage{siunitx}
+    - \usepackage{lscape}
+    - \usepackage{pdfpages}
+    - \newcommand{\beginsupplement}{\setcounter{table}{0}  \renewcommand{\thetable}{A\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{A\arabic{figure}}}
+---
+```{r setup, echo = F, message = F, warning = F}
+knitr::opts_knit$set(root.dir = "..", dev = "cairo_pdf")
+library(systemfit)
+library(AER)
+library(sandwich)
+library(lmtest)
+library(kevostools)
+library(scales)
+library(tidyverse)
+library(extrafont)
+library(kableExtra)
+library(data.table)
+library(stargazer)
+loadfonts()
+```
+\pagenumbering{arabic}
+\newpage
+\doublespacing
+\beginsupplement
+\newpage
+
+
+# OLS Regression Table for State-Level Models
+
+\begin{singlespace}
+\input{"../temp/state_reg_ols.tex"}
+\end{singlespace}
+
+# Logistic Regression Table for District-Level Models
+
+\begin{singlespace}
+\input{"../temp/district_reg_logit.tex"}
+\end{singlespace}
+
+# Regression Tables for Racial Resentment Models
+
+Table \ref{tab:chamb-rr} presents the regression results for the racial resentment models using OLS. Table \ref{tab:chamb-rr-logit} presents these results using a logistic regression. There are fewer observations in these models than in Table 3 in the body of the paper and Table \ref{tab:dist-logit} because not every district in the country was home to a respondent to the CES. Although the relationship between racial resentment and probability of sponsorship is not statistically significant in the upper chamber model after controlling for other covariates (*p* = 0.109) the relationship is substantively large. Taken with the other results presented in the body of this article and the SI, I conclude that racial resentment probably is associated with sponsorship above-and-beyond the other covariates, the statistical nonsignificance of this one coefficient notwithstanding.
+
+\begin{singlespace}
+\input{"../temp/district_reg_rr.tex"}
+
+\input{"../temp/district_reg_rr_logit.tex"}
+\end{singlespace}

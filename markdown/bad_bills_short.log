@@ -1,9 +1,9 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2022.3.31)  19 APR 2022 17:39
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2022.3.31)  23 APR 2022 12:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**bad_bills.tex
-(./bad_bills.tex
+**bad_bills_short.tex
+(./bad_bills_short.tex
 LaTeX2e <2021-11-15> patch level 1
 L3 programming layer <2022-02-24>
 (c:/Users/morrisk/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/article.cls
@@ -695,18 +695,15 @@ Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
 )
 \cslhangindent=\skip70
 \csllabelwidth=\skip71
-(./bad_bills.aux
+(./bad_bills_short.aux
 
 LaTeX Warning: Label `fig:cols' multiply defined.
 
 
 LaTeX Warning: Label `fig:maps' multiply defined.
 
-
-LaTeX Warning: Label `fig:mefs-state' multiply defined.
-
 )
-\openout1 = `bad_bills.aux'.
+\openout1 = `bad_bills_short.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 128.
 LaTeX Font Info:    ... okay on input line 128.
@@ -1014,9 +1011,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 128.
 LaTeX Info: Redefining \pageref on input line 128.
 LaTeX Info: Redefining \nameref on input line 128.
-(./bad_bills.out) (./bad_bills.out)
+(./bad_bills_short.out) (./bad_bills_short.out)
 \@outlinefile=\write3
-\openout3 = `bad_bills.out'.
+\openout3 = `bad_bills_short.out'.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -1105,59 +1102,48 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 4.99947pt on input line 130.
 [1
 
-] [1]
+]
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 8.4pt on input line 151.
+(Font)              scaled to size 8.4pt on input line 145.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 6.0pt on input line 151.
+(Font)              scaled to size 6.0pt on input line 145.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 8.40076pt on input line 151.
+(Font)              scaled to size 8.40076pt on input line 145.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 6.00055pt on input line 151.
+(Font)              scaled to size 6.00055pt on input line 145.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 8.3991pt on input line 151.
+(Font)              scaled to size 8.3991pt on input line 145.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 5.99936pt on input line 151.
-[2] [3] [4] [5] [6] [7]
-File: bad_bills_files/figure-latex/cols-1.pdf Graphic file (type pdf)
-<use bad_bills_files/figure-latex/cols-1.pdf>
-File: bad_bills_files/figure-latex/maps-1.pdf Graphic file (type pdf)
-<use bad_bills_files/figure-latex/maps-1.pdf>
-[8] [9] [10] [11] [12] (../temp/state_reg.tex
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 8.0pt on input line 6.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 8.00073pt on input line 6.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 7.99915pt on input line 6.
-) [13]
-File: bad_bills_files/figure-latex/mefs-state-1.pdf Graphic file (type pdf)
-<use bad_bills_files/figure-latex/mefs-state-1.pdf>
-[14
+(Font)              scaled to size 5.99936pt on input line 145.
+[1] [2]
+File: bad_bills_short_files/figure-latex/cols-1.pdf Graphic file (type pdf)
+<use bad_bills_short_files/figure-latex/cols-1.pdf>
+File: bad_bills_short_files/figure-latex/maps-1.pdf Graphic file (type pdf)
+<use bad_bills_short_files/figure-latex/maps-1.pdf>
+[3] [4] [5]
+File: bad_bills_short_files/figure-latex/mefs-cha-1.pdf Graphic file (type pdf)
 
-
-] [15] (../temp/district_reg.tex)
-File: bad_bills_files/figure-latex/mefs-cha-1.pdf Graphic file (type pdf)
-<use bad_bills_files/figure-latex/mefs-cha-1.pdf>
-[16] [17] [18]
-File: bad_bills_files/figure-latex/mefs-comp-1.pdf Graphic file (type pdf)
-<use bad_bills_files/figure-latex/mefs-comp-1.pdf>
-File: bad_bills_files/figure-latex/mefs-rr-1.pdf Graphic file (type pdf)
-<use bad_bills_files/figure-latex/mefs-rr-1.pdf>
-[19] [20] [21] [22] [23] [24] [25] [26] [27] (./bad_bills.aux)
+<use bad_bills_short_files/figure-latex/mefs-cha-1.pdf>
+[6] [7]
+File: bad_bills_short_files/figure-latex/mefs-comp-1.pdf Graphic file (type pdf
+)
+<use bad_bills_short_files/figure-latex/mefs-comp-1.pdf>
+File: bad_bills_short_files/figure-latex/mefs-rr-1.pdf Graphic file (type pdf)
+<use bad_bills_short_files/figure-latex/mefs-rr-1.pdf>
+[8] [9] [10] [11] [12] [13] [14] (./bad_bills_short.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package rerunfilecheck Info: File `bad_bills.out' has not changed.
-(rerunfilecheck)             Checksum: 03A22DFBFB6FAA6E4CD2D703E1F6F7DA;1461.
+Package rerunfilecheck Info: File `bad_bills_short.out' has not changed.
+(rerunfilecheck)             Checksum: 361D11B5285ACE26C1E7A4D48F4CB325;760.
  ) 
 Here is how much of TeX's memory you used:
- 19698 strings out of 478179
- 364332 string characters out of 5852732
- 840501 words of memory out of 5000000
- 39976 multiletter control sequences out of 15000+600000
- 478746 words of font info for 106 fonts, out of 8000000 for 9000
+ 19642 strings out of 478179
+ 363044 string characters out of 5852732
+ 804640 words of memory out of 5000000
+ 39941 multiletter control sequences out of 15000+600000
+ 477738 words of font info for 94 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 86i,14n,121p,2249b,459s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 86i,12n,121p,1817b,459s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on bad_bills.pdf (28 pages).
+Output written on bad_bills_short.pdf (15 pages).

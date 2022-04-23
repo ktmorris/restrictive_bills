@@ -1,0 +1,295 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  12pt,
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={A Right Restricted},
+  pdfauthor={Kevin Morris},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\usepackage{rotating}
+\usepackage{setspace}
+\usepackage{lscape}
+\usepackage{pdfpages}
+\newcommand{\beginsupplement}{\setcounter{table}{0}  \renewcommand{\thetable}{A\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{A\arabic{figure}}}
+\usepackage{lineno}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+  % set entry spacing
+  \ifnum #2 > 0
+  \setlength{\parskip}{#2\baselineskip}
+  \fi
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\title{A Right Restricted\thanks{TKTKT}}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Partisanship, Racial Backlash, and Restrictions to the Ballot Box}
+\author{Kevin Morris\footnote{Researcher, Brennan Center for Justice (kevin.morris{[}at{]}nyu.edu).}}
+\date{April 23, 2022}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+In the aftermath of the United States' 2020 presidential election, state legislatures have introduced and passed an unprecedented wave of restrictive voting bills. Past scholarship has focused on state-level characteristics driving restrictions to the franchise; this project instead uses theories of racial threat to investigate how local and state factors interact to structure support for voting restrictions. Using district-level sponsorship data, I show that lawmakers from the whitest parts of the least-white states were the most likely to sponsor restrictive voting bills, as were lawmakers from districts where white residents exhibited the highest levels of racial resentment. Meanwhile, I find that districts where voters were most supportive of Trump were the most likely to be represented by lawmakers sponsoring these bills. I conclude that racial animus and partisan signaling explain the sponsorship of restrictive voting laws, racing important normative questions about support for democracy in the United States.
+\end{abstract}
+
+\pagenumbering{gobble}
+\pagebreak
+
+\pagenumbering{arabic}
+\doublespacing
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+The past 18 months have been characterized by an unprecedented wave of legislation that voting rights activists argue will make voting more difficult across the country. This wave follows closely on highly-publicized attacks on the validity of the 2020 election. After losing his re-election bid in November, then-president Donald Trump claimed repeatedly that the election had been stolen (\protect\hyperlink{ref-Dale2020}{Dale 2020}), a claim he has continued to maintain and that some 70\% of self-identified Republicans believed by early 2022 (\protect\hyperlink{ref-Cuthbert2022}{Cuthbert and Theodoridis 2022}). Many state legislators also justified their support for restrictive legislation in terms similar to Oklahoma State Representative Sean Roberts (sponsor of the restrictive HB 2842 and HB 2847), who told reporters that ``{[}I{]}t was very clear that the election was stolen from President Trump. We must do everything we can to close those loopholes'' (quoted in \protect\hyperlink{ref-May2022}{May 2022}). Concerns about election security were not limited to state legislators: 147 Congressional Republicans voted against the certification of the 2020 presidential election, including a supermajority of Republicans in the House (\protect\hyperlink{ref-Yourish2021}{Yourish, Buchanan, and Lu 2021}). This raises important questions about the real motivation for the subsequent legislative backlash against voting rights.
+
+This project relies on a comprehensive survey of voting-related bills introduced around the country in 2021 systematically collected by the Brennan Center for Justice to better understand what explains the introduction and passage of restrictive voting legislation.\footnote{See \url{https://www.brennancenter.org/our-work/research-reports/voting-laws-roundup-december-2021}.} Past scholarship exploring the determinants of the passage of restrictive voting legislation has focused exclusively at the state level, providing key insight about the sorts of states most likely to take such legislative action. This scholarship has largely argued that restrictive voting bills can be explained by \emph{racial threat}---that is, white legislators are more likely to pass these bills in the face of large and/or growing political power among racial minorities (\protect\hyperlink{ref-Behrens2003}{Behrens, Uggen, and Manza 2003}; \protect\hyperlink{ref-Bentele2013}{Bentele and O'Brien 2013}; \protect\hyperlink{ref-Biggers2017}{Biggers and Hanmer 2017})---or \emph{partisan control}---that is, Republican legislators pass these bills to shore up flagging majorities in electorally competitive states.
+
+This project asks what determines support---as proxied by legislative sponsorship---for these restrictive bills \emph{within} states. Recent work among sociologists of social threat (\protect\hyperlink{ref-Andrews2015}{Andrews and Seguin 2015}) argues that scholars should attend to the interplay between state and local demographic conditions to understand how race shapes white backlash.
+
+The results are unequivocal: it was representatives from the whitest districts in the least-white states that were the most likely to sponsor restrictive legislation. Moreover, even after accounting for partisanship and demographics, the most racially-resentful districts were the most likely to be represented by these lawmakers. Partisanship also plays a role, but not in the way past literature would suggest: sponsorship is not concentrated in contested, competitive districts where lawmakers are seeking an electoral advantage, but rather in the safest Republican districts. In short, the legislative activity related to restrictive voting bills in 2021 seems best explained by racial threat and white backlash.
+
+\hypertarget{methods-and-materials}{%
+\section{Methods and Materials}\label{methods-and-materials}}
+
+Throughout my analyses, I rely on the Voting Laws Roundup, a project of the Brennan Center for Justice at NYU School of Law. The Brennan Center systematically reviews all laws introduced around the country that relate to voting and the administration of elections in each state. The Brennan Center separates each bill introduced into its constituent provisions, using two coders to designate each provision as ``restrictive,'' ``neutral,'' or ``expansive.'' Each provision is also assigned to a category describing its content (such as ``voter ID,'' ``polling place count,'' or ``funding for poll workers''). Each bill's provisions are identified when a bill first includes provisions related to voting, and updated if a bill is passed. In other words, if a bill is introduced with some voting provisions, is subsequently amended to include other voting provisions, but ultimately fails to pass, only the original provisions are included. Figure \ref{fig:cols} shows the categorical breakdown of restrictive provisions introduced and passed, while Figure \ref{fig:maps} shows the geographical distribution of these provisions.
+
+\begin{figure}[!ht]
+
+{\centering \includegraphics{bad_bills_short_files/figure-latex/cols-1} 
+
+}
+
+\caption{\label{fig:cols}Categories of Restrictive Provisions, 2021}\label{fig:cols}
+\end{figure}
+
+\begin{figure}[!ht]
+
+{\centering \includegraphics{bad_bills_short_files/figure-latex/maps-1} 
+
+}
+
+\caption{\label{fig:maps}Restrictive Provisions, 2021}\label{fig:maps}
+\end{figure}
+
+My independent variable captures whether a given district was represented by a lawmaker who sponsored a restrictive bill. Sponorship data comes from LegiScan, an organization that tracks state-level bills around the nation. This sponsorship data is merged with the list of bills identified by Brennan Center's voting laws roundup.
+
+The primary independent variables for the first set of analyses are the white share of the district \emph{and} the white share of the state. These are included to test whether the influence of the whiteness of a district on the probability that a lawmaker sponsors a restrictive bill is influenced by state-level factors. I also test the relationship between sponsorship and partisanship at the district level by controlling for the share of the district won by Donald Trump in the 2020 presidential election. Trump's two-party vote share in each district is calculated by aggregating up from precinct-level results published by the Voting Election and Science Team (\protect\hyperlink{ref-VotingandElectionScienceTeam2022}{2022}). I assign each precinct to the upper- and lower-chamber district in which its geographical center is located.\footnote{While this will not perfectly estimate voteshare in chambers where precincts cross district lines, there is little reason to expect this will systematically distort voteshare estimates.} This coverage is not perfect: in Kentucky and West Virginia, where precinct-level results are not available, I use population-weighted county-level results. Specifically, I assign each Census block the Trump vote share of its home county. District vote share is calculated as the population-weighted mean of Trump vote share in each block in the district. I also account for the partisan control of each state using data from the National Conference of State Legislatures\footnote{See \url{https://www.ncsl.org/documents/elections/Legis_Control_2-2021.pdf}.} Although Nebraska's unicameral state legislature is formally nonpartisan, they are considered to be under unified Republican control for the purposes of this study.
+
+Of course, administrative and demographic data cannot give us insight into the political disposition of district residents. As such, I also incorporate survey data from the 2020 Cooperative Election Study to test whether districts' racial resentment scores are associated with the sponsorship of restrictive bills. The 2020 CES asks white voters how strongly they agree (on a scale of 1 to 5) with two statements related to racial resentment: \emph{Irish, Italians, Jewish and many other minorities overcame prejudice and worked their way up. Blacks should do the same without any special favors} and \emph{Generations of slavery and discrimination have created conditions that make it difficult for blacks to work their way out of the lower class}. I reverse code agreement with the first statement, such that higher scores for both statements are associated with higher levels of racial resentment. Respondents' racial resentment scores are calculated as the mean of their response to these two questions. I retain only the responses of white respondents.
+
+While the CES data do not include respondents' home legislative districts, the survey makes home ZIP codes available. To calculate district resentment scores, I begin by assigning every Census block in the country the mean resentment score of the ZIP code in which its centroid falls. District resentment scores are then calculated as the population-weighted average racial resentment score of all blocks in the district.
+
+In addition to these measures of voting legislation and policy environment, I incorporate demographic data at the state and legislative-district level from the Census Bureau's American Communities Survey. These estimates are the 5-year numbers ending with 2020. I also incorporate information about how difficult voting was prior to 2021 using the Cost of Voting Index (COVI) (\protect\hyperlink{ref-Schraufnagel2020}{Schraufnagel, Pomante II, and Li 2020}).
+
+Based on the literature discussed above, I pose the following hypotheses:
+
+In light of recent sociological work on the geography of racial threat (\protect\hyperlink{ref-Andrews2015}{Andrews and Seguin 2015}), \textbf{H1}: I expect that whiter districts in less-white states were the most likely to be represented by legislators that sponsored restrictive voting provisions.
+
+I also test the effect of partisanship and competitiveness along the lines of past scholarship. This past work would predict that \textbf{H2a}: lawmakers from competitive districts controlled by Republicans are the most likely to support restrictive voting legislation. If, however, the sponsorship of such legislation is tied more to racial threat and signalling to an aggrieved base, I predict that \textbf{H2b}: representatives from the most conservative districts were the most likely to sponsor these bills.
+
+Finally, I test the relationship between whites' racial resentment and lawmaker sponsorship of restrictive bills, hypothesizing that \textbf{H3}: Districts where white voters had higher levels of racial resentment were more likely to be represented by legislators that sponsored restrictive voting provisions.
+
+\hypertarget{results}{%
+\section{Results}\label{results}}
+
+\hypertarget{district-level-legislative-behavior}{%
+\subsection{District-Level Legislative Behavior}\label{district-level-legislative-behavior}}
+
+In Figure \ref{fig:mef-dis} I plot the results of an OLS regression testing \textbf{H1}. The regression table can be found in the Supplemental Information (SI), as can robustness checks demonstrating that the results hold when estimating the models using logistic regression. In the first row, I present the results of Models 1 and 4 of Table A1 in the SI, where only racial characteristics are included. The second row plots Models 3 and 6 which include covariates. All other covariates are held at their means.
+
+\begin{figure}[!ht]
+
+{\centering \includegraphics{bad_bills_short_files/figure-latex/mefs-cha-1} 
+
+}
+
+\caption{\label{fig:mef-dis}Sponsorship and Race}\label{fig:mefs-cha}
+\end{figure}
+
+Figure \ref{fig:mef-dis} shows that the relationship between district-level demographics and restrictive voting sponsorship are highly moderated by state-level characteristics, as expected. Namely, representatives from the whitest legislative districts in the most racially diverse states were by far the most likely to sponsor restrictive legislation. There is little relationship between district-level demographics and the probability of sponsoring a restrictive voting bill in the whitest states; it is only in the least-white states that this relationship becomes apparent. Although these relationships are moderated slightly with the inclusion of relevant sociodemographic and political covariates, the patterns remain clear: representatives from white districts in states with large nonwhite populations---whose (growing) demographic and political power could inspire fear in the more homogeneously-white parts of the state---were disproportionately likely to sponsor bills with provisions making voting more difficult.
+
+Figure \ref{fig:mef-comp} also indicates that the sponsorship of restrictive voting laws at the district-level follows substantially different patterns than those established previously looking at state-level factors. As discussed above, past research indicates that electorally-competitive states are the most likely to pass restrictive voting laws in an attempt to maintain control. \textbf{H2a} extended this logic to the district level. The results, however, strongly support \textbf{H2b}, indicating lawmakers from the most Republican districts were the most likely to sponsor these bills. If these bills were being supported out of genuine fear about fraud distorting the results in close elections, we would have expected to see them supported most by precisely the lawmakers whose districts were competitive. Instead, representatives from \emph{safe} districts who could not reasonably fear electoral loss in a general election from fraud---even if it existed---are the most common sponsors. While partisanship plays a role in these sponsorships, \emph{something other than electoral competitiveness} drives the Republicans who sponsor these provisions. As discussed above, this is likely racial threat among white Republicans.
+
+\begin{figure}[!ht]
+
+{\centering \includegraphics{bad_bills_short_files/figure-latex/mefs-comp-1} 
+
+}
+
+\caption{\label{fig:mef-comp}Sponsorship and Partisanship}\label{fig:mefs-comp}
+\end{figure}
+
+I turn to the CES data to more directly test the relationship between resentment and bill sponsorship. After estimating each district's resentment score, I ask whether this score is associated with the probability that a lawmaker sponsored a bill with at least one restrictive provision. Figure \ref{fig:mef-rr} plots the predicted probabilities of sponsorship, both before and after controlling for other covariates (the regression table can be found in the SI). The top panels demonstrate a strong bivariate relationship between racial resentment and sponsorship: districts where white respondents to the CES were more racially resentful were far more likely to be represented by a lawmaker who sponsored a restrictive bill. This is especially true in the upper chamber.
+
+\begin{figure}[!ht]
+
+{\centering \includegraphics{bad_bills_short_files/figure-latex/mefs-rr-1} 
+
+}
+
+\caption{\label{fig:mef-rr}Sponsorship and Racial Resentment}\label{fig:mefs-rr}
+\end{figure}
+
+These relationships are moderated by the inclusion of sociodemographic controls, especially the partisan measures. Although these relationships are smaller, they nevertheless remain substantively quite large and statistically significant. In the lower chamber, the most-resentful districts were more than 50 percent (10 points) more likely to be represented by a lawmaker sponsoring a restrictive bill than the least-resent districts, other things being equal. In the upper chamber, the probability of being represented by a lawmaker sponsoring a restrictive bill for the most-resentful districts was \emph{double} that of the least resentful districts. The explanatory power of racial resentment above-and-beyond what can be explained by racial and partisan measures is striking and provides exceedingly strong evidence for \textbf{H3}.
+
+\hypertarget{discussion}{%
+\section{Discussion}\label{discussion}}
+
+While legislators claim to pass restrictive voter policies under the guise of improved security, the data unambiguously points to white backlash to perceived racial threat. While discussing what she calls the ``political work of fraud allegations,'' Lorraine Minnite argued a decade ago that claims of fraud could be explained by ``the existence of marginalized subjects within the political culture whose presence alone stands in as the evidence of the alleged fraud'' (\protect\hyperlink{ref-Minnite2010}{Minnite 2010, 87}). In other words, the rhetoric of voter fraud draws boundaries around who does and does not count as a citizen, and whose political participation is inherently suspect.
+
+A similar pattern emerges in this study of regressive voting laws introduced and passed in 2021, following the hard-fought and deeply polarizing 2020 presidential election and subsequent violent attempt to overturn the results on January 6th, 2021. Although the push to restrict voting access was extremely broad in 2021---more than 1 in 3 Americans lived in a district represented by a legislator who sponsored at least one restrictive provisions---the push was concentrated in states and legislative districts with particular, systematic demographic characteristics.
+
+As anti-democratic forces continue to undermine faith in the United States' electoral infrastructure, understanding the source of this backlash is of key importance. I uncover no evidence that lawmakers from competitive districts were more likely to sponsor restrictive bills. In a year with such widespread restrictive voting legislation, why is support for these measures not concentrated in the districts where shifting the composition of the electorate (or preventing fraud) by a tiny amount might matter? The explanation for this behavior might lie in theories of legislator signalling. As \protect\hyperlink{ref-Rocca2010}{Rocca and Gordon} (\protect\hyperlink{ref-Rocca2010}{2010}) note, ``members of an attentive public pay close attention to legislators' stances. Representatives know this and use non--roll call forums to signal attentive groups that they are `on their side.' Groups, in turn, reward representatives sympathetic to their causes with campaign contributions'' (387). Legislators from less polarized districts, on the other hand, are more likely to take moderate positions, reflecting the influence of a competitive electorate (\protect\hyperlink{ref-Kirkland2014}{Kirkland 2014}). Future work should directly interrogate whether legislators who signal support for restrictive voting rights gain campaign such benefits as campaign contributions or increased turnout.
+
+This research demonstrates that the backlash is inextricably linked with race: insofar as sponsorship proxies a district's appetite for restrictive voting legislation, these bills found the most fertile soil where white voters are concentrated in racially diverse states. The incorporation of survey data makes the relationships even clearer, showing that racial resentment among white Americans has explanatory power above-and-beyond any partisan effect. All told, race plays a clear and unambiguous role in the restrictive wave of voting legislative that has characterized the post-2020 legislative landscape.
+
+\newpage
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\hypertarget{ref-Andrews2015}{}%
+Andrews, Kenneth T., and Charles Seguin. 2015. {``Group {Threat} and {Policy Change}: {The Spatial Dynamics} of {Prohibition Politics}, 1890{}.''} \emph{American Journal of Sociology} 121 (2): 475--510. \url{https://doi.org/10.1086/682134}.
+
+\leavevmode\hypertarget{ref-Behrens2003}{}%
+Behrens, Angela, Christopher Uggen, and Jeff Manza. 2003. {``Ballot {Manipulation} and the {`{Menace} of {Negro Domination}'}: {Racial Threat} and {Felon Disenfranchisement} in the {United States}, 1850{}.''} \emph{American Journal of Sociology} 109 (3): 559--605. \url{https://doi.org/10.1086/378647}.
+
+\leavevmode\hypertarget{ref-Bentele2013}{}%
+Bentele, Keith G., and Erin E. O'Brien. 2013. {``Jim {Crow} 2.0? {Why States Consider} and {Adopt Restrictive Voter Access Policies}.''} \emph{Perspectives on Politics} 11 (4): 1088--1116. \url{https://doi.org/10.1017/S1537592713002843}.
+
+\leavevmode\hypertarget{ref-Biggers2017}{}%
+Biggers, Daniel R., and Michael J. Hanmer. 2017. {``Understanding the {Adoption} of {Voter Identification Laws} in the {American States}.''} \emph{American Politics Research} 45 (4): 560--88. \url{https://doi.org/10.1177/1532673X16687266}.
+
+\leavevmode\hypertarget{ref-Cuthbert2022}{}%
+Cuthbert, Lane, and Alexander Theodoridis. 2022. {``Analysis \textbar{} {Do Republicans} Really Believe {Trump} Won the 2020 Election? {Our} Research Suggests That They Do.''} \emph{Washington Post}, January.
+
+\leavevmode\hypertarget{ref-Dale2020}{}%
+Dale, Daniel. 2020. {``Fact Checking {Trump}'s Barrage of Lies over the Weekend.''} \emph{CNN}, November.
+
+\leavevmode\hypertarget{ref-Kirkland2014}{}%
+Kirkland, Justin H. 2014. {``Ideological {Heterogeneity} and {Legislative Polarization} in the {United States}.''} \emph{Political Research Quarterly} 67 (3): 533--46. \url{https://doi.org/10.1177/1065912914532837}.
+
+\leavevmode\hypertarget{ref-May2022}{}%
+May, Payton. 2022. {``State Lawmakers Debate: {Is} Election Fraud a Problem in {Oklahoma}?''} \emph{KOKH}, March.
+
+\leavevmode\hypertarget{ref-Minnite2010}{}%
+Minnite, Lorraine C. 2010. \emph{The {Myth} of {Voter Fraud}}. {Ithaca, UNITED STATES}: {Cornell University Press}.
+
+\leavevmode\hypertarget{ref-Rocca2010}{}%
+Rocca, Michael S., and Stacy B. Gordon. 2010. {``The {Position-taking Value} of {Bill Sponsorship} in {Congress}.''} \emph{Political Research Quarterly} 63 (2): 387--97. \url{https://doi.org/10.1177/1065912908330347}.
+
+\leavevmode\hypertarget{ref-Schraufnagel2020}{}%
+Schraufnagel, Scot, Michael J. Pomante II, and Quan Li. 2020. {``Cost of {Voting} in the {American States}: 2020.''} \emph{Election Law Journal: Rules, Politics, and Policy} 19 (4): 503--9. \url{https://doi.org/10.1089/elj.2020.0666}.
+
+\leavevmode\hypertarget{ref-VotingandElectionScienceTeam2022}{}%
+Voting and Election Science Team. 2022. {``2020 {Precinct-Level Election Results}.''} {Harvard Dataverse}. \url{https://doi.org/10.7910/DVN/K7760H}.
+
+\leavevmode\hypertarget{ref-Yourish2021}{}%
+Yourish, Karen, Larry Buchanan, and Denise Lu. 2021. {``The 147 {Republicans Who Voted} to {Overturn Election Results}.''} \emph{The New York Times}, January.
+
+\end{CSLReferences}
+
+\end{document}
