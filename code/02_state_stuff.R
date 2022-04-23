@@ -214,7 +214,6 @@ p <- plot_grid(rs, rp, race_intro,
                label_size = 12,
                label_fontfamily = "LM Roman 10")
 j <- plot_grid(p, legend_b, ncol = 1, rel_heights = c(1, .1))
-# j
 
 f <- ggdraw(add_sub(j, "   Covariates include 2020 COVI; whether the state was competitive in the 2020 election;
          Change in Democratic presidential voteshare, 2016--2020;
@@ -233,44 +232,6 @@ models <- list(m_intro2,
                m_pass2,
                m_pass3,
                m_pass_white)
-
-
-# j <- rbindlist(lapply(c(1:length(models)), function(i){
-#   
-#   m <- models[[i]]
-#   
-#   if((i+1) %% 3 != 0){
-#     l <- linearHypothesis(m, c("poly(nh_white, 2)1:FinalCOVI", "poly(nh_white, 2)2:FinalCOVI"))[2,6]
-#     star <- ifelse(l < 0.01, "***",
-#                    ifelse(l < 0.05, "**",
-#                           ifelse(l < 0.1, "*", "")))
-#     l <- paste0(ifelse(l < .001, "< 0.001", as.character(round(l, 3))), star)
-#     
-#     k <-  linearHypothesis(m, c("poly(nh_white, 2)1", "poly(nh_white, 2)2"))[2,6]
-#     star <- ifelse(k < 0.01, "***",
-#                    ifelse(k < 0.05, "**",
-#                           ifelse(k < 0.1, "*", "")))
-#     k <- paste0(ifelse(k < .001, "< 0.001", as.character(round(k, 3))), star)
-#   }else{
-#     l <- ""
-#     k <- ""
-#   }
-#   return(data.table(alone = k, inter = l, m = i))
-# })) %>% 
-#   pivot_longer(cols = c(alone, inter)) %>% 
-#   pivot_wider(id_cols = name, values_from = value, names_from = m) %>% 
-#   select(-name)
-# 
-# j <- rbind(data.table(V0 = "\\textit{p}-value of Joint Significance Test"),
-#            cbind(data.table(V0 = "\\hspace{3mm}on Nonhispanic White Terms"),
-#                  j[1,]),
-#            data.table(V0 = "\\textit{p}-value of Joint Significance Test"),
-#            cbind(data.table(V0 = "\\hspace{3mm}on Nonhispanic White $\\times$ COVI Terms"),
-#                  j[2,]),
-#            fill = T) %>% 
-#   mutate(across(everything(), ~ ifelse(is.na(.), "", .)))
-# 
-# attr(j, 'position') <- c(29:32)
 
 modelsummary(models,
              statistic = "[{conf.low}, {conf.high}]",
@@ -305,10 +266,40 @@ modelsummary(models,
   kable_styling(font_size = 8) %>% 
   save_kable("temp/state_reg.tex")
 
-modelsummary(models[c(1,3,4,6)],
+
+cleanup("state_level", "census")
+#######################################################################
+m_intro_white <- feols(intro ~ poly(nh_white, 2) * r +
+                       FinalCOVI + competitive * r +
+                       change_dem +
+                       median_income + median_age + population +
+                       some_college, census)
+
+m_intro2 <- feols(intro ~ poly(nh_white, 2) * r, census)
+
+m_intro3 <- feols(intro ~ competitive * r, census)
+
+m_pass_white <- feols(passed ~ poly(nh_white, 2) * r +
+                      FinalCOVI + competitive * r +
+                      change_dem +
+                      median_income + median_age + population +
+                      some_college, census)
+
+m_pass2 <- feols(passed ~ poly(nh_white, 2) * r, census)
+
+m_pass3 <- feols(passed ~ competitive * r, census)
+
+models <- list(m_intro2,
+               m_intro3,
+               m_intro_white,
+               m_pass2,
+               m_pass3,
+               m_pass_white)
+
+modelsummary(models,
              statistic = "[{conf.low}, {conf.high}]",
-             # stars = c("*" = 0.1, "**" = 0.05, "***" = 0.01),
-             gof_omit = "converged|BIC",
+             stars = c("*" = 0.05, "**" = 0.01, "***" = 0.001),
+             gof_omit = 'DF|Deviance|AIC|BIC|Within|Pseudo|Log|Std|FE',
              coef_map = c("poly(nh_white, 2)1" = "Nonhispanic White",
                           "poly(nh_white, 2)2" = "Nonhispanic White\\textsuperscript{2}",
                           "rRepublican" = "Unified Republican Control",
@@ -334,12 +325,15 @@ modelsummary(models[c(1,3,4,6)],
                        "\\\\textit{Nonhispanic White} and \\\\textit{Share with Some College} can range from 0 to 100.",
                        "\\\\textit{Change in Dem. Vote Share 2016–2020} can range from -100 to 100.",
                        "\\\\textit{Nonhispanic White} and \\\\textit{Nonhispanic White\\\\textsuperscript{2}} computed using orthogonal polynomials.")) %>% 
-  add_header_above(c(" " = 1, "Introduced" = 2, "Passed" = 2)) %>% 
-  kable_styling(font_size = 8) %>% 
-  save_kable("temp/state_reg_slim.tex")
+  add_header_above(c(" " = 1, "Introduced" = 3, "Passed" = 3)) %>% 
+  kable_styling(font_size = 8, latex_options = c("HOLD_position", "scale_down")) %>% 
+  save_kable("temp/state_reg_ols.tex")
+
 
 cleanup("state_level", "census")
-
+################################################################
+################################################################
+################################################################
 types <- state_level %>%
   group_by(group) %>%
   summarize(intro = sum(n),
